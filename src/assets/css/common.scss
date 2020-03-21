@@ -1,0 +1,113 @@
+@import './reset.css';
+@import './_mixin';
+@import './transition';
+@import './_variable.scss'; //公共变量
+
+@import './example.scss'; //例子
+
+
+*{
+    box-sizing: border-box;
+}
+html,body{
+    position: relative;
+    line-height: 1.6;
+    font-size: $baseFontSize;
+    font-family: $baseFontFamily;
+    z-index: 1;
+    -webkit-font-smoothing: antialiased;
+}
+a{
+    text-decoration: none;
+    color: #111111;
+}
+div,a,input,label,i,svg{
+    @include setTapColor()
+} 
+
+/* 间距*/
+@each $i in 5,10,15,20 {
+    .pdt-#{$i} {padding-top: $i + px !important;}
+    .pdb-#{$i} {padding-bottom: $i + px !important;}
+    .pdl-#{$i} {padding-left: $i + px !important;}
+    .pdr-#{$i} {padding-right: $i + px !important;}
+    .pdtb-#{$i} {padding-top: $i + px !important;padding-bottom: $i + px !important;}
+    .pdlr-#{$i} {padding-left: $i + px !important;padding-right: $i + px !important;}
+    .pd-#{$i} {padding: $i + px !important;}
+
+    .mgt-#{$i} {margin-top: $i + px !important;}
+    .mgb-#{$i} {margin-bottom: $i + px !important;}
+    .mgl-#{$i} {margin-left: $i + px !important;}
+    .mgr-#{$i} {margin-right: $i + px !important;}
+    .mgr-#{$i} {margin-right: $i + px !important;}
+    .mgtb-#{$i} {margin-top: $i + px !important;margin-bottom: $i + px !important;}
+    .mglr-#{$i} {margin-left: $i + px !important;margin-right: $i + px !important;}
+    .mg-#{$i} {margin: $i + px !important;}
+}
+
+/* 圆角*/ 
+@each $i in 0,2,4,5,10,15,20,25,30,999 {
+    .round-#{$i} {border-radius: $i +px;}
+}
+.round-100{border-radius:100%;}
+
+/* 字号大小*/
+@each $i in 10,12,14,15,16,18,20,22,24,26,28,30,32,36 {
+    .fs-#{$i} {font-size: $i +px;}
+}
+
+/* 安全区域*/
+.pdt-safe-0{padding-top: 0px !important;padding-top: calc( constant(safe-area-inset-top) + 0px) !important; /*20+0*/padding-top: calc( env(safe-area-inset-top) + 0px) !important;}
+.pdt-44{padding-top: #{$headerHeight} !important;}
+.pdt-safe-44{padding-top: #{$headerHeight} !important;padding-top: calc( constant(safe-area-inset-top) + #{$headerHeight}) !important; /*20+44*/padding-top: calc( env(safe-area-inset-top) + #{$headerHeight}) !important;}
+.pdb-safe-0{padding-bottom: 0px !important;padding-bottom: calc( constant(safe-area-inset-bottom) + 0px) !important; /*20+0*/padding-bottom: calc( env(safe-area-inset-bottom) + 0px) !important;}
+.pdb-50{padding-bottom: #{$tabbarHeight} !important;}
+.pdb-safe-50{padding-bottom: #{$tabbarHeight} !important;padding-bottom: calc( constant(safe-area-inset-bottom) + #{$tabbarHeight}) !important; /*20+50*/padding-bottom: calc( env(safe-area-inset-bottom) + #{$tabbarHeight}) !important;}
+
+.mgt-safe-0{margin-top: 0px !important;margin-top: calc( constant(safe-area-inset-top) + 0px) !important; /*20+0*/margin-top: calc( env(safe-area-inset-top) + 0px) !important;}
+.mgt-44{margin-top: #{$headerHeight} !important;}
+.mgt-safe-44{margin-top: #{$headerHeight} !important;margin-top: calc( constant(safe-area-inset-top) + #{$headerHeight}) !important; /*20+44*/margin-top: calc( env(safe-area-inset-top) + #{$headerHeight}) !important;}
+.mgb-safe-0{margin-bottom: 0px !important;margin-bottom: calc( constant(safe-area-inset-bottom) + 0px) !important; /*20+0*/margin-bottom: calc( env(safe-area-inset-bottom) + 0px) !important;}
+.mgb-50{margin-bottom: #{$tabbarHeight} !important;}
+.mgb-safe-50{margin-bottom: #{$tabbarHeight} !important;margin-bottom: calc( constant(safe-area-inset-bottom) + #{$tabbarHeight}) !important; /*20+50*/margin-bottom: calc( env(safe-area-inset-bottom) + #{$tabbarHeight}) !important;}
+
+.none{display:none;}
+.overflow{overflow: hidden;}
+.block{display:block;}
+.iblock{display: inline-block;}
+.flex{display: flex;}
+.between{justify-content: space-between;}
+
+.tc{text-align: center;}
+.tl{text-align: left;}
+.tr{text-align: right;}
+.fl{float: left;}
+.fr{float: right;}
+.clear{zoom:1;}
+.clear:after{content:"";height:0;line-height:0;display:block;visibility:hidden;clear:both;}
+
+.text-red{color: #eb1c1c;}
+.text-yellow{color: #ff6300;}
+.text-deepgrey{color: #666666;}
+.text-grey{color: #999999;}
+.text-black{color: #111111;}
+
+/*溢出1、2行隐藏*/
+.text-hidden-1{@include setTextHidden1();}
+.text-hidden-2{@include setTextHidden2();}
+
+/*框架*/
+.layout{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.wrapper {
+    flex-grow: 1;
+    flex-shrink: 1; 
+    min-height: 100vh;
+    background: #f0f0f0; /*必须， 路由切换时覆盖页面*/
+    // -webkit-overflow-scrolling: touch; 
+}
+

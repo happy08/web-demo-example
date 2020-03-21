@@ -1,0 +1,144 @@
+// Animation
+%common-animation{
+  animation-duration: .3s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+}
+@mixin make-animation($keyframeName) {
+  .#{$keyframeName}-enter-active, .#{$keyframeName}In,
+  .#{$keyframeName}-leave-active, .#{$keyframeName}Out {
+      @extend %common-animation;
+  }
+  .#{$keyframeName}-enter-active, .#{$keyframeName}In {
+      animation-name: #{$keyframeName}-in;
+     
+  }
+  .#{$keyframeName}-leave-active, .#{$keyframeName}Out {
+      animation-name: #{$keyframeName}-out;
+  }
+}
+
+//rotate转圈
+@keyframes cy-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@include make-animation(cy-rotate);
+
+//fade-in fade-out
+@keyframes cy-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cy-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+@include make-animation(cy-fade);
+
+//slide-down
+@keyframes cy-slide-down-in {
+  from {
+      transform: translate3d(0, -100%, 0);
+      visibility: visible;
+  }
+  to {
+      transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes cy-slide-down-out {
+  from {
+      transform: translate3d(0, 0, 0);
+  }
+  to {
+      visibility: hidden;
+      transform: translate3d(0, -100%, 0);
+  }
+}
+@include make-animation(cy-slide-down);
+
+//slide-up
+@keyframes cy-slide-up-in {
+  from {
+      transform: translate3d(0, 100%, 0);
+      visibility: visible;
+  }
+  to {
+      transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes cy-slide-up-out {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+      visibility: hidden;
+      transform: translate3d(0, 100%, 0);
+  }
+}
+@include make-animation(cy-slide-up);
+
+
+//zoom 放大
+@keyframes cy-zoom-in {
+  0% {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cy-zoom-out {
+  0% {
+      opacity: 1;
+      transform: scale(1);
+  }
+  100% {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+}
+@include make-animation(cy-zoom);
+
+//放大到消失
+@keyframes cy-zoom-none{
+  0% {
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+  }
+  100% {
+      width: 180%;
+      height: 180%;
+      opacity: 0;
+  }
+}
+
+//左右扩张
+@keyframes cy-to-left-right{
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+
