@@ -19,7 +19,7 @@
                         <span>{{ pullUpTxt }}</span>
                     </div>
                     <div class="after-trigger" v-else>
-                        <loading></loading>
+                        <cy-loading></cy-loading>
                     </div>
                 </div>
             </slot>
@@ -54,7 +54,7 @@
 
 <script>
 import BScroll from "better-scroll";
-import cyLoading from "../loading/index.vue";
+//import cyLoading from "../loading/index.vue";
 //import Bubble from "../bubble/bubble.vue";
 //import deprecatedMixin from "../../common/mixins/deprecated";
 //import { camelize } from "../../common/lang/string";
@@ -64,8 +64,8 @@ const DIRECTION_V = "vertical";
 const DEFAULT_REFRESH_TXT = "Refresh success";
 const DEFAULT_STOP_TIME = 600;
 const EVENT_CLICK = "click";
-const EVENT_PULLING_DOWN = "pulling-down";
-const EVENT_PULLING_UP = "pulling-up";
+const EVENT_PULLING_DOWN = "pullingDown";
+const EVENT_PULLING_UP = "pullingUp";
 const EVENT_SCROLL = "scroll";
 const EVENT_BEFORE_SCROLL_START = "before-scroll-start";
 const EVENT_SCROLL_END = "scroll-end";
@@ -479,6 +479,7 @@ export default {
             }
             this.beforePullDown = false;
             this.isPullingDown = true;
+            console.log("pullingDown");
             this.$emit(EVENT_PULLING_DOWN);
         },
         _pullDownScrollHandle(pos) {
@@ -556,7 +557,7 @@ export default {
         }
     },
     components: {
-        cyLoading
+        //cyLoading
         //Bubble
     }
 };
