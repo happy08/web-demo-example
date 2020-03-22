@@ -2,9 +2,9 @@
     <div>
         <base-header title="popup"></base-header>
 
-        <cy-btn sm @click="show=true">底弹出</cy-btn>
-        <cy-btn sm @click="show2=true">中弹出</cy-btn>
-        <cy-btn sm @click="show3=true">上弹出</cy-btn>
+        <cy-btn sm @click.native="show=true">底弹出</cy-btn>
+        <cy-btn sm @click.native="show2=true">中弹出</cy-btn>
+        <cy-btn sm @click.native="show3=true">上弹出</cy-btn>
 
         <cy-popup
             v-model="show"

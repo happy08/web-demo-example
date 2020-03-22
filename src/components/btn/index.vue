@@ -29,35 +29,46 @@ export default {
         angle: Boolean,
         plain: Boolean,
         inline: Boolean,
+        block: Boolean,
+        shadow: String,
         text: String,
         link: String,
-        gradients: {
-            type: Array
+        background: {
+            type: [String, Array]
         }
     },
     methods: {
         handleClick() {
             this.link &&
-                !this.disabled && this.$utils.go(this.link, this.$router);
+                !this.disabled &&
+                this.$utils.go(this.link, this.$router);
         }
     },
     computed: {
-        noBorder() {
-            return Array.isArray(this.gradients);
+        isArray() {
+            return Array.isArray(this.background);
         },
         style() {
-            if (this.gradients) {
-                if (this.gradients[1]) {
-                    return {
-                        background: `linear-gradient(90deg, ${this.gradients[0]}, ${this.gradients[1]})`,
-                        color: "#FFFFFF"
-                    };
+            let style = {};
+            if (this.background) {
+                if (this.plain) {
+                    style["border-color"] =
+                        this.background || this.background[0];
+                    style["color"] = this.background || this.background[0];
+                } else {
+                    if (this.isArray) {
+                        style.background = `linear-gradient(${
+                            this.background[2] == "vertical" ? "180" : "90"
+                        }deg, ${this.background[0]}, ${this.background[1]})`;
+                    } else {
+                        style.background = this.background;
+                    }
                 }
-                return {
-                    background: this.gradients[0],
-                    color: "#FFFFFF"
-                };
             }
+            if (this.shadow) {
+                style["box-shadow"] = this.shadow;
+            }
+            return style;
         },
         classes() {
             return [
@@ -68,9 +79,10 @@ export default {
                     "cy-btn-sm": this.sm,
                     "cy-btn-xs": this.xs,
                     "cy-btn-inline": this.inline,
+                    "cy-btn-block": this.block,
                     "cy-btn-radius": this.round,
                     "cy-btn-angle": this.angle,
-                    "cy-btn-no-border": this.noBorder
+                    "cy-btn-no-border": this.background && !this.plain
                 },
                 !this.plain ? `cy-btn-${this.type}` : "",
                 this.plain ? `cy-btn-plain-${this.type}` : ""
@@ -99,7 +111,7 @@ export default {
     text-decoration: none;
     color: $btnFontColor;
     height: $btnHeight;
-    line-height: $btnHeight - 2px;
+    line-height: 1;
     border-radius: $btnBorderRadius;
     @include setTapColor();
     overflow: hidden;
@@ -121,16 +133,14 @@ input {
     &.cy-btn-xs {
         width: auto;
     }
+    &.cy-btn-block {
+        display: block;
+        width: 100%;
+    }
 }
 
 .cy-btn-inline {
     display: inline-block;
-}
-
-.cy-btn-disabled,
-.cy-btn-plain-disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
 }
 
 .cy-btn-radius {
@@ -141,71 +151,59 @@ input {
 }
 .cy-btn-lg {
     height: $btnLgHeight;
-    line-height: $btnLgHeight - 2px;
+    line-height: 1;
     font-size: $btnLgFontSize;
 }
 .cy-btn-sm {
     display: inline-block;
     padding: 0 8px;
     height: $btnSmHeight;
-    line-height: $btnSmHeight - 2px;
+    line-height: 1;
     font-size: $btnSmFontSize;
     border-radius: 3px;
 }
 .cy-btn-xs {
     display: inline-block;
-    padding: 0 2px;
+    padding: 0 4px;
     min-width: 22px;
     height: $btnXsHeight;
-    line-height: $btnXsHeight - 2px;
+    line-height: 1;
     font-size: $btnXsFontSize;
     border-radius: 2px;
 }
 
 .cy-btn.cy-btn-no-border {
-    border-top: 1px solid rgba(0, 0, 0, 0);
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-    border-left: 0px solid rgba(0, 0, 0, 0);
-    border-right: 0px solid rgba(0, 0, 0, 0);
+    border: 0px solid rgba(0, 0, 0, 0);
 }
 
-//default
-.cy-btn-default {
-    border-color: #b5b5b5;
-    color: #333333;
-    background-color: #f8f8f8;
-    &:not(.cy-btn-disabled):active {
-        opacity: 0.8;
-    }
-}
-//plain-default
-.cy-btn-plain-default {
-    color: #353535;
-    border: 1px solid #b5b5b5;
-    &:not(.cy-btn-plain-disabled):active {
-        opacity: 0.8;
-    }
+.cy-btn-disabled,
+.cy-btn-plain-disabled {
+    cursor: not-allowed;
+    background: #e9e9e9 !important;
+    border: 1px solid rgba(0, 0, 0, 0) !important;
+    color: #ffffff !important;
 }
 
-@mixin setCyBtn($name: "blue", $color: #1989fa) {
+@mixin setCyBtn($name: "blue", $background: #1989fa, $color: #1989fa) {
     .cy-btn-#{$name} {
-        border-color: $color;
-        background-color: $color;
+        border-color: $background;
+        background-color: $background;
         &:not(.cy-btn-disabled):active {
             opacity: 0.8;
         }
     }
     .cy-btn-plain-#{$name} {
         color: $color;
-        border: 1px solid $color;
+        border-color: $background;
         &:not(.cy-btn-plain-disabled):active {
             opacity: 0.8;
         }
     }
 }
-@include setCyBtn("blue", #1989fa);
-@include setCyBtn("green", #4fc08d);
-@include setCyBtn("yellow", #eb7f51);
-@include setCyBtn("red", #e64340);
+@include setCyBtn("blue", #1989fa, #1989fa);
+@include setCyBtn("green", #4fc08d, #4fc08d);
+@include setCyBtn("yellow", #eb7f51, #eb7f51);
+@include setCyBtn("red", #e64340, #e64340);
+@include setCyBtn("grey", #bebebe, #5f5e5e);
 //·······可继续扩展·······
 </style>

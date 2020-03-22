@@ -11,7 +11,6 @@ $baseFontColor: #1989fa; //默认颜色
 $baseFontFamily:PingFang SC, 'Helvetica Neue', Arial, sans-serif;
 
 /* Button start */
-//基本
 $btnBorderRadius: 5px;
 $btnFontColor: #FFFFFF;
 $btnHeight: 44px;
@@ -26,25 +25,8 @@ $btnSmFontSize: 12px;
 $btnSmHeight: 30px;
 
 //xs类型 xsmall
-$btnXsFontSize: 10px;
+$btnXsFontSize: 12px;
 $btnXsHeight: 22px;
-
-
-/* Radio start */
-$radioBorderColor:#1989fa;
-$radioBgColor:#1989fa;
-$radioFontSize:15px;
-$radioWidth:19px;
-$radioHeight:19px;
-/* Radio end */
-
-/* Checkbox start */
-$checkboxBorderColor:#1989fa;
-$checkboxBgColor:#1989fa;
-$checkboxFontSize:15px;
-$checkboxWidth:19px;
-$checkboxHeight:19px;
-/* Checkbox end */
 
 /* Switch start */
 $switchBgColorActive:#1989fa;

@@ -1,11 +1,13 @@
 <template>
     <label :class="['cy-radio',$slots.default || 'no-text']" @click="onClick">
         <input
+            class="cy-radio-input"
             type="radio"
             :value="currentValue"
             :checked="currentValue === label"
             :disabled="isDisabled"
             :label="label"
+            :style="style"
         />
         <span v-show="$slots.default" :class="['cy-radio-label',isDisabled && 'cy-radio-disabled']">
             <slot></slot>
@@ -21,6 +23,8 @@ export default {
             default: false
         },
         label: [String, Number, Boolean],
+        background: [String, Array],
+        size: [String, Number],
         disabled: {
             type: Boolean,
             default: false
@@ -44,6 +48,30 @@ export default {
             return this.parent
                 ? this.parent.disabled || this.disabled
                 : this.disabled;
+        },
+        style() {
+            let style = {
+                "--pseudoElementBgColor": "#f63",
+                "--pseudoElementColor": "#f63"
+            };
+            let background = this.background;
+            if (background) {
+                if (Array.isArray(background)) {
+                    style[
+                        "--pseudoElementBgColor"
+                    ] = `linear-gradient(90deg, ${background[0]}, ${background[1]})`;
+                    style["--pseudoElementColor"] = background[0];
+                } else {
+                    style["--pseudoElementBgColor"] = background;
+                    style["--pseudoElementColor"] = background;
+                }
+            }
+            if (this.size) {
+                style.width = `${this.size}px`;
+                style.height = `${this.size}px`;
+            }
+
+            return style;
         }
     },
     created() {
@@ -84,44 +112,51 @@ export default {
     }
     .cy-radio-label {
         padding-left: 3px;
-        font-size: $radioFontSize;
+        font-size: 15px;
         pointer-events: none;
         vertical-align: middle;
     }
     .cy-radio-disabled {
         color: #999999;
     }
-    input {
+    .cy-radio-input {
         position: relative;
-        width: $radioWidth;
-        height: $radioHeight;
-        border: 1px solid $radioBorderColor;
+        width: 19px;
+        height: 19px;
+        border: 1px solid transparent;
         -webkit-appearance: none;
-        border-radius: 50%;
-        background-size: cover;
+        background-size: 100%;
+        background-position: center;
         outline: 0;
         opacity: 1;
         vertical-align: middle;
         margin-top: 0px;
-        &::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: $radioBgColor;
-            background-repeat: no-repeat;
-            background-position: center;
-            border-color: $radioBgColor;
-            background-size: 60%;
-            box-shadow: 0 4px 6px 0 rgba($radioBgColor, 0.15);
-            border-radius: 50%;
-            opacity: 0;
-            pointer-events: none;
-            @include setRadioBg("FFFFFF");
+        border-color: var(--pseudoElementColor);
+        border-radius: 50%;
+        &:checked {
+            background: var(--pseudoElementBgColor);
+            &:before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 90%;
+                top: 10%;
+                background-size: 100%;
+                opacity: 1;
+                pointer-events: none;
+                z-index: 2;
+                transform: scale(0.7);
+                @include setRadioBg("FFFFFF");
+            }
         }
-        &:checked::before {
-            opacity: 1;
-            animation: cy-zoom-in 0.5s;
+        &:disabled {
+            overflow: hidden;
+            border-color: #ccc !important;
+            background: #e1e1e1 !important;
+            &:before {
+                box-shadow: none;
+                @include setRadioBg("aaaaaa");
+            }
         }
         &:after {
             position: absolute;
@@ -132,7 +167,7 @@ export default {
             height: 0;
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-            background: $checkboxBgColor;
+            background: var(--pseudoElementBgColor);
             border-radius: 50%;
             opacity: 0;
             pointer-events: none;
@@ -140,16 +175,66 @@ export default {
         &:checked:not(:disabled):after {
             animation: cy-zoom-none 0.3s;
         }
-
-        &:disabled {
-            border-color: #ccc;
-            background-color: #e1e1e1;
-            &::before {
-                background-color: #e1e1e1;
-                box-shadow: none;
-                @include setRadioBg("aaaaaa");
-            }
-        }
     }
+    // input {
+    //     position: relative;
+    //     width: 19px;
+    //     height: 19px;
+    //     border: 1px solid $radioBorderColor;
+    //     -webkit-appearance: none;
+    //     border-radius: 50%;
+    //     background-size: cover;
+    //     outline: 0;
+    //     opacity: 1;
+    //     vertical-align: middle;
+    //     margin-top: 0px;
+    //     &::before {
+    //         content: "";
+    //         position: absolute;
+    //         width: 100%;
+    //         height: 100%;
+    //         background-color: $radioBgColor;
+    //         background-repeat: no-repeat;
+    //         background-position: center;
+    //         border-color: $radioBgColor;
+    //         background-size: 60%;
+    //         box-shadow: 0 4px 6px 0 rgba($radioBgColor, 0.15);
+    //         border-radius: 50%;
+    //         opacity: 0;
+    //         pointer-events: none;
+    //         @include setRadioBg("FFFFFF");
+    //     }
+    //     &:checked::before {
+    //         opacity: 1;
+    //         //animation: cy-zoom-in .3s;
+    //     }
+    //     &:after {
+    //         position: absolute;
+    //         left: 50%;
+    //         top: 50%;
+    //         content: "";
+    //         width: 0;
+    //         height: 0;
+    //         -webkit-transform: translate(-50%, -50%);
+    //         transform: translate(-50%, -50%);
+    //         background: $checkboxBgColor;
+    //         border-radius: 50%;
+    //         opacity: 0;
+    //         pointer-events: none;
+    //     }
+    //     &:checked:not(:disabled):after {
+    //         animation: cy-zoom-none 0.3s;
+    //     }
+
+    //     &:disabled {
+    //         border-color: #ccc;
+    //         background-color: #e1e1e1;
+    //         &::before {
+    //             background-color: #e1e1e1;
+    //             box-shadow: none;
+    //             @include setRadioBg("aaaaaa");
+    //         }
+    //     }
+    // }
 }
 </style>

@@ -71,10 +71,11 @@ div,a,input,label,i,svg{
 .mgb-50{margin-bottom: #{$tabbarHeight} !important;}
 .mgb-safe-50{margin-bottom: #{$tabbarHeight} !important;margin-bottom: calc( constant(safe-area-inset-bottom) + #{$tabbarHeight}) !important; /*20+50*/margin-bottom: calc( env(safe-area-inset-bottom) + #{$tabbarHeight}) !important;}
 
-.none{display:none;}
-.overflow{overflow: hidden;}
-.block{display:block;}
+.none{display: none;}
+.block{display: block;}
 .iblock{display: inline-block;}
+.hidden{overflow: hidden;}
+.visible{overflow: visible;}
 .flex{display: flex;}
 .between{justify-content: space-between;}
 

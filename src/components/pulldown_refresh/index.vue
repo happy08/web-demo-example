@@ -1,18 +1,10 @@
 <template>
     <div ref="wrapper" class="cube-scroll-wrapper">
-        <div class="cube-scroll-content">
+        <div :class="['cube-scroll-content',{'cube-scroll-horizontal':direction==='horizontal'}]">
             <div ref="listWrapper" class="cube-scroll-list-wrapper">
-                <slot>
-                    <ul class="cube-scroll-list">
-                        <li
-                            class="cube-scroll-item border-bottom-1px"
-                            v-for="(item, index) in data"
-                            :key="index"
-                            @click="clickItem(item)"
-                        >{{item}}</li>
-                    </ul>
-                </slot>
+                <slot></slot>
             </div>
+            <!-- 上拉加载更多 -->
             <slot name="pullup" :pullUpLoad="pullUpLoad" :isPullUpLoad="isPullUpLoad">
                 <div class="cube-pullup-wrapper" v-if="pullUpLoad">
                     <div class="before-trigger" v-if="!isPullUpLoad">
@@ -24,6 +16,7 @@
                 </div>
             </slot>
         </div>
+        <!-- 下拉刷新 -->
         <div v-if="pullDownRefresh" class="cube-pulldown" ref="pulldown">
             <slot
                 name="pulldown"
@@ -35,7 +28,7 @@
             >
                 <div class="cube-pulldown-wrapper" :style="pullDownStyle">
                     <div class="before-trigger" v-show="beforePullDown">
-                        加载
+                        加载zhon
                         <!-- <bubble :y="bubbleY" class="bubble"></bubble> -->
                     </div>
                     <div class="after-trigger" v-show="!beforePullDown">
@@ -54,7 +47,7 @@
 
 <script>
 import BScroll from "better-scroll";
-//import cyLoading from "../loading/index.vue";
+import cyLoading from "../loading/index.vue";
 //import Bubble from "../bubble/bubble.vue";
 //import deprecatedMixin from "../../common/mixins/deprecated";
 //import { camelize } from "../../common/lang/string";
@@ -87,6 +80,11 @@ const DEFAULT_OPTIONS = {
 export default {
     name: COMPONENT_NAME,
     //mixins: [ deprecatedMixin],
+    components: {
+        cyLoading
+        //Bubble
+    },
+
     provide() {
         return {
             parentScroll: this
@@ -555,10 +553,6 @@ export default {
             }
             this.pullUpHeight = this.getRect(pullup).height;
         }
-    },
-    components: {
-        //cyLoading
-        //Bubble
     }
 };
 </script>
@@ -615,12 +609,8 @@ export default {
 .cube-scroll-content {
     position: relative;
     z-index: 1;
-}
-
-.cube-scroll-item {
-    height: 60px;
-    line-height: 60px;
-    font-size: 18px;
-    padding-left: 20px;
+    &.cube-scroll-horizontal {
+        display: inline-block;
+    }
 }
 </style>

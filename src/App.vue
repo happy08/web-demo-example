@@ -27,11 +27,11 @@ export default {
                 to.meta.index == from.meta.index ||
                 from.meta.index == undefined
             ) {
-                this.transition = "slide-fade";
+                this.transition = "page-fade";
             } else if (to.meta.index > from.meta.index) {
-                this.transition = "slide-left";
+                this.transition = "page-slide-left";
             } else {
-                this.transition = "slide-right";
+                this.transition = "page-slide-right";
             }
 
             //判断是否显示tabbar
@@ -45,27 +45,27 @@ export default {
 };
 </script>
 
-<style lang="scss" scope>
+<style lang="scss">
 @import "./assets/css/_variable.scss";
 /*fade切换效果*/
-.slide-fade-enter-active {
+.page-fade-enter-active {
     position: fixed;
     width: 100%;
     top: 0;
     opacity: 1;
 }
-.slide-fade-enter-active,
-.slide-fade-leave-active {
+.page-fade-enter-active,
+.page-fade-leave-active {
     transition: opacity 0.5s;
 }
-.slide-fade-enter,
-.slide-fade-leave-to {
+.page-fade-enter,
+.page-fade-leave-to {
     opacity: 0;
 }
 
 /*slide切换效果*/
-.slide-right-leave-active,
-.slide-left-enter-active {
+.page-slide-right-leave-active,
+.page-slide-left-enter-active {
     position: fixed;
     will-change: transform;
     transition: transform 300ms;
@@ -77,41 +77,41 @@ export default {
     height: 100vh;
     z-index: 1070 !important;
 }
-.slide-right-enter-active,
-.slide-left-leave-active {
+.page-slide-right-enter-active,
+.page-slide-left-leave-active {
     position: relative;
     will-change: margin-left;
     transition: margin-left 300ms;
     transition-timing-function: ease-out;
     width: 100%;
 }
-.slide-right-enter-active {
+.page-slide-right-enter-active {
     margin-left: 0;
     z-index: 8 !important;
 }
-.slide-right-enter {
+.page-slide-right-enter {
     margin-left: -30%;
 }
-.slide-right-leave-active {
+.page-slide-right-leave-active {
     z-index: 9 !important;
     transform: translate3d(100%, 0, 0);
 }
-.slide-left-enter {
+.page-slide-left-enter {
     transform: translate3d(100%, 0, 0);
 }
-// .slide-left-enter-active {
+// .page-slide-left-enter-active {
 // }
-.slide-left-leave-active {
+.page-slide-left-leave-active {
     margin-left: -30%;
 }
 
 //子路由动画
-// .slide-child-enter-active,
-// .slide-child-leave-active {
+// .page-slide-child-enter-active,
+// .page-slide-child-leave-active {
 //   transition: transform 400ms;
 // }
-// .slide-child-enter,
-// .slide-child-leave-active {
+// .page-slide-child-enter,
+// .page-slide-child-leave-active {
 //   transform: translateX(100%);
 // }
 </style>

@@ -1,6 +1,16 @@
 <template>
     <div>
         <base-header title="cell"></base-header>
+        <!-- <div class="nav-scroll-list-wrap">
+            <cy-pulldown-refresh ref="navScroll" direction="horizontal">
+                <div class="nav-wrapper">
+                    <div v-for="(item, index) in items" :key="index" class="nav-item">
+                        <cy-image :src="require('@/assets/img/1.jpg')"></cy-image>
+                    </div>
+                </div>
+            </cy-pulldown-refresh>
+        </div>-->
+
         <div class="scroll-list-wrap">
             <cy-pulldown-refresh
                 ref="scroll"
@@ -8,9 +18,24 @@
                 :options="options"
                 @pullingDown="onPullingDown"
                 @pullingUp="onPullingUp"
-            ></cy-pulldown-refresh>
+            >
+                <div v-for="(item, index) in items" :key="index" class="nav-item">
+                    <div>
+                        dd
+                        <br />
+                        <br />
+                        <br />
+                        <cy-image
+                            style="width:100%;height:100px"
+                            :src="require('@/assets/img/1.jpg')"
+                        ></cy-image>
+                        <br />
+                    </div>
+                    <!--  -->
+                </div>
+            </cy-pulldown-refresh>
         </div>
-        <cy-btn sm @click.native="curIndex=1">第2个</cy-btn>
+        <!-- <cy-btn sm @click.native="curIndex=1">第2个</cy-btn>
         <cy-tab
             customBarWidth="60%"
             :noScrollNum="5"
@@ -32,21 +57,15 @@
             <cy-tab-item>未发货</cy-tab-item>
         </cy-tab>
 
-        <cy-swiper :pagination="false" :initPage="curIndex" v-model="curIndex" ref>
-            <div class="cy-swiper-slide">
-                <div class="scroll-list-wrap">
-                    <cy-pulldown-refresh
-                        ref="scroll"
-                        :data="items"
-                        :options="options"
-                        @pullingDown="onPullingDown"
-                        @pullingUp="onPullingUp"
-                    ></cy-pulldown-refresh>
-                </div>
-            </div>
-            <div class="cy-swiper-slide">2</div>
-            <div class="cy-swiper-slide">3</div>
-        </cy-swiper>
+        <div class="scroll-list-wrap">
+            <cy-pulldown-refresh
+                ref="scroll"
+                :data="items"
+                :options="options"
+                @pullingDown="onPullingDown"
+                @pullingUp="onPullingUp"
+            ></cy-pulldown-refresh>
+        </div>-->
 
         <div>
             <cy-cell>## tab</cy-cell>
@@ -105,7 +124,10 @@ export default {
         };
     },
     components: {},
-    created() {},
+    created() {
+        console.log("dd");
+        document.title = "123";
+    },
     computed: {
         options() {
             return {
@@ -159,8 +181,11 @@ export default {
                     let newPage = ["rt"];
                     this.items = this.items.concat(newPage);
                 } else {
+                    console.log("onPullingUp2");
+
+                    this.$refs.scroll.forceUpdate(true);
+
                     // 如果没有新数据
-                    this.$refs.scroll.forceUpdate();
                 }
             }, 1000);
         }
@@ -168,7 +193,27 @@ export default {
 };
 </script>
 <style lang="scss">
+.nav-scroll-list-wrap {
+    transform: rotate(0deg);
+    position: relative;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-right: 30px;
+}
+
+.nav-wrapper {
+    display: inline-block;
+    white-space: nowrap;
+    line-height: 36px;
+    padding: 0 5px;
+}
+.nav-wrapper .nav-item {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    padding: 0 5px;
+}
 .scroll-list-wrap {
-    height: 200px;
+    height: calc(100vh - 44px);
 }
 </style>

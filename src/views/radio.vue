@@ -4,17 +4,17 @@
 
         <cy-cell title="备选项1" @click.native="selectRadio('备选1')">
             <div slot="desc">
-                <cy-radio v-model="value" label="备选1"></cy-radio>
+                <cy-radio v-model="value" size="25" label="备选1" :background="['#fa3','#f12']"></cy-radio>
             </div>
         </cy-cell>
         <cy-cell title="备选项2" @click.native="selectRadio('备选2')">
             <div slot="desc">
-                <cy-radio v-model="value" label="备选2"></cy-radio>
+                <cy-radio v-model="value" label="备选2" background="#f12"></cy-radio>
             </div>
         </cy-cell>
 
         <cy-radiogroup v-model="radioValue">
-            <cy-radio label="a">备选项1</cy-radio>
+            <cy-radio label="a" size="25">备选项1</cy-radio>
             <cy-radio label="b" disabled>备选项2</cy-radio>
         </cy-radiogroup>
 
@@ -23,7 +23,9 @@
             <cy-cell>字段 类型 默认值 说明</cy-cell>
             <cy-cell>v-model: 任意 当前选中项的标识符，与label值一致时呈选中状态</cy-cell>
             <cy-cell>label: 任意 标识符，与v-model值一致时呈选中状态</cy-cell>
+            <cy-cell>size: String,Number 大小</cy-cell>
             <cy-cell>disabled: Boolean false 禁用</cy-cell>
+            <cy-cell>background: String,Array 背景 例#ff3 或 ['#a3f','#f07']</cy-cell>
 
             <cy-cell>## RadioGroup</cy-cell>
             <cy-cell>字段 类型 默认值 说明</cy-cell>

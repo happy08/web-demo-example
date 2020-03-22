@@ -17,6 +17,18 @@
       animation-name: #{$keyframeName}-out;
   }
 }
+//下滑
+@include make-animation(cy-slide-down);
+//上滑
+@include make-animation(cy-slide-up);
+//左滑
+@include make-animation(cy-slide-left);
+//右滑
+@include make-animation(cy-slide-right);
+//渐显
+@include make-animation(cy-fade);
+//放大
+@include make-animation(cy-zoom);
 
 //rotate转圈
 @keyframes cy-rotate {
@@ -34,7 +46,6 @@
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -43,12 +54,10 @@
   from {
     opacity: 1;
   }
-
   to {
     opacity: 0;
   }
 }
-@include make-animation(cy-fade);
 
 //slide-down
 @keyframes cy-slide-down-in {
@@ -69,7 +78,6 @@
       transform: translate3d(0, -100%, 0);
   }
 }
-@include make-animation(cy-slide-down);
 
 //slide-up
 @keyframes cy-slide-up-in {
@@ -90,8 +98,46 @@
       transform: translate3d(0, 100%, 0);
   }
 }
-@include make-animation(cy-slide-up);
 
+//slide-left
+@keyframes cy-slide-left-in {
+  from {
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+  }
+  to {
+      transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes cy-slide-left-out {
+  from {
+      transform: translate3d(0, 0, 0);
+  }
+  to {
+      visibility: hidden;
+      transform: translate3d(-100%, 0, 0);
+  }
+}
+
+//slide-right
+@keyframes cy-slide-right-in {
+  from {
+     transform: translate3d(100%, 0, 0);
+      visibility: visible;
+  }
+  to {
+      transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes cy-slide-right-out {
+  from {
+      transform: translate3d(0, 0, 0);
+  }
+  to {
+      visibility: hidden;
+      transform: translate3d(100%, 0, 0);
+  }
+}
 
 //zoom 放大
 @keyframes cy-zoom-in {
@@ -115,7 +161,6 @@
       transform: scale(0.8);
   }
 }
-@include make-animation(cy-zoom);
 
 //放大到消失
 @keyframes cy-zoom-none{

@@ -7,6 +7,9 @@
                 :label="item[keys.label]"
                 :id="item[keys.id]"
                 :checked.sync="item.checked"
+                :size="size"
+                :round="round"
+                :background="background"
                 v-model="checkboxValues[index]"
                 @onChange="handleChange(arguments, item)"
             >{{ item[keys.label] || item[keys.value] || item }}</cy-checkbox>
@@ -53,6 +56,9 @@ export default {
             type: Boolean,
             default: false
         },
+        size: [String, Number],
+        round: String,
+        background: [String, Array],
         vertical: {
             type: Boolean,
             default: false

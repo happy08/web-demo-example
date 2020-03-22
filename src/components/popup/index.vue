@@ -67,19 +67,11 @@ export default {
         };
     },
     created() {
-        if (this.position === "center") {
-            this.transitionName = "cy-fade";
-        } else {
-            this.transitionName = `cy-slide-${this.position}`;
-        }
+        this.setPosition(this.position);
     },
     watch: {
         position(val) {
-            if (val === "center") {
-                this.transitionName = "cy-fade";
-            } else {
-                this.transitionName = `cy-slide-${this.position}`;
-            }
+            this.setPosition(val);
         }
     },
     computed: {
@@ -97,6 +89,21 @@ export default {
         handleClose() {
             this.$emit("input", false);
             this.$emit("onClose", false);
+        },
+        setPosition(position) {
+            if (position === "center") {
+                this.transitionName = "cy-fade";
+            } else {
+                switch (position) {
+                    case "top":
+                        position = "down";
+                        break;
+                    case "bottom":
+                        position = "up";
+                        break;
+                }
+                this.transitionName = `cy-slide-${position}`;
+            }
         }
     }
 };
@@ -105,27 +112,6 @@ export default {
 <style lang="scss">
 $cy-close-icon-margin: 12px;
 $cy-border-radius: 15px;
-
-.cy-slide {
-    &-top-enter,
-    &-top-leave-active {
-        transform: translate(0, -100%);
-    }
-    &-right-enter,
-    &-right-leave-active {
-        transform: translate(100%, 0);
-    }
-
-    &-bottom-enter,
-    &-bottom-leave-active {
-        transform: translate(0, 100%);
-    }
-
-    &-left-enter,
-    &-left-leave-active {
-        transform: translate(-100%, 0);
-    }
-}
 
 .cy-popup {
     position: fixed;
