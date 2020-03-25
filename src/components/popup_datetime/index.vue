@@ -12,21 +12,12 @@
 </template>
 
 <script>
-//import Icon from "../icon";
 import Picker from "./datetimepicker";
-//import Group from '../group'
-//import InlineDesc from '../inline-desc'
-//import Uuid from '../../mixins/uuid'
+
 import format from "./format";
 
 export default {
-    name: "datetime",
-    //mixins: [Uuid],
-    components: {
-        //Group,
-        //InlineDesc,
-        //Icon
-    },
+    name: "cy-popup-datetime",
     props: {
         format: {
             type: String,
@@ -208,7 +199,7 @@ export default {
                 onSelect(type, val, wholeValue) {
                     if (_this.picker && _this.picker.config.renderInline) {
                         _this.$emit("input", wholeValue);
-                        _this.$emit("on-change", wholeValue);
+                        _this.$emit("onChange", wholeValue);
                     }
                 },
                 onConfirm(value) {
@@ -221,14 +212,14 @@ export default {
                     _this.currentShow = false;
                     _this.$emit("update:show", false);
                     _this.validate();
-                    _this.$emit("on-hide", type);
+                    _this.$emit("onHide", type);
                     if (type === "cancel") {
-                        _this.$emit("on-cancel");
+                        _this.$emit("onCancel");
                     }
                     if (type === "confirm") {
                         setTimeout(() => {
                             _this.$nextTick(() => {
-                                _this.$emit("on-confirm", _this.value);
+                                _this.$emit("onConfirm", _this.value);
                             });
                         });
                     }
@@ -236,7 +227,7 @@ export default {
                 onShow() {
                     _this.currentShow = true;
                     _this.$emit("update:show", true);
-                    _this.$emit("on-show");
+                    _this.$emit("onShow");
                 }
             };
             if (this.minYear) {
@@ -307,9 +298,9 @@ export default {
             this.$emit("input", val);
             if (!this.isFirstSetValue) {
                 this.isFirstSetValue = true;
-                oldVal && this.$emit("on-change", val);
+                oldVal && this.$emit("onChange", val);
             } else {
-                this.$emit("on-change", val);
+                this.$emit("onChange", val);
             }
             this.validate();
         },
@@ -363,61 +354,6 @@ export default {
     text-align: center;
 }
 
-// .scroller-component {
-//   display: block;
-//   position: relative;
-//   height: 238px;
-//   overflow: hidden;
-//   width: 100%;
-// }
-
-// .scroller-content {
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   width: 100%;
-//   z-index: -1;
-// }
-
-// .scroller-mask {
-//   position: absolute;
-//   left: 0;
-//   top: 0;
-//   height: 100%;
-//   margin: 0 auto;
-//   width: 100%;
-//   z-index: 3;
-//   background-image:
-//     linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.6)),
-//     linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.6));
-//   background-position: top, bottom;
-//   background-size: 100% 102px;
-//   background-repeat: no-repeat;
-// }
-
-// .scroller-item {
-//   text-align: center;
-//   font-size: 16px;
-//   height: 34px;
-//   line-height: 34px;
-//   color: #000;
-// }
-
-// .scroller-indicator {
-//   width: 100%;
-//   height: 34px;
-//   position: absolute;
-//   left: 0;
-//   top: 102px;
-//   z-index: 3;
-//   background-image:
-//     linear-gradient(to bottom, #d0d0d0, #d0d0d0, transparent, transparent),
-//     linear-gradient(to top, #d0d0d0, #d0d0d0, transparent, transparent);
-//   background-position: top, bottom;
-//   background-size: 100% 1px;
-//   background-repeat: no-repeat;
-// }
-
 .dp-container {
     position: fixed;
     width: 100%;
@@ -425,17 +361,14 @@ export default {
     bottom: 0;
     z-index: 10000;
     background-color: #fff;
-    //display: none;
     transition: transform 0.3s ease;
     transform: translateY(100%);
     &.cy-datetime-container-active {
-        //display: block;
         transform: translateY(0);
     }
 }
 
 .dp-mask {
-    z-index: 998;
     position: fixed;
     width: 100%;
     height: 100%;

@@ -2,12 +2,14 @@
 <template>
     <div :class="['cy-field',{'cy-field-disabled':disabled},{'cy-field-required':required}]">
         <cy-icon :type="labelIcon" v-if="!!labelIcon" class="cy-field-label-icon"></cy-icon>
-        <div
-            class="cy-field-label"
-            :style="{'min-width': this.labelWidth ? this.labelWidth : ''}"
-            v-if="label"
-        >{{label}}</div>
-        <div class="cy-field-inner">
+        <slot name="label">
+            <div
+                class="cy-field-label"
+                :style="{'min-width': this.labelWidth ? this.labelWidth : ''}"
+                v-if="label"
+            >{{label}}</div>
+        </slot>
+        <div :class="['cy-field-inner',{'cy-field-margin0':!label && !labelIcon}]">
             <slot name="input">
                 <input
                     class="cy-field-input"
@@ -161,13 +163,15 @@ export default {
         position: relative;
         margin-left: 5px;
         min-height: 30px;
+        &.cy-field-margin0 {
+            margin-left: 0;
+        }
         .cy-field-input {
             flex: 1;
             width: 100%;
             height: 30px;
             outline: none;
             font-size: inherit;
-            background-color: #ffffff;
             &::-webkit-input-placeholder {
                 color: #c1c4cb;
                 font-style: normal;

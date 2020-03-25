@@ -16,9 +16,14 @@
         <cy-cell link="/totop" title="totop" subTitle="返回顶部"></cy-cell>
         <cy-cell link="/field" title="field" subTitle="表单"></cy-cell>
         <cy-cell link="/popup_picker" title="popup_picker" subTitle="选择器"></cy-cell>
+        <cy-cell link="/popup_datetime" title="popup_datetime" subTitle="选择时间"></cy-cell>
+        <cy-cell link="/keyboard_car" title="keyboard_car" subTitle="车牌号键盘"></cy-cell>
         <cy-cell link="/badge" title="badge" subTitle="徽标"></cy-cell>
         <cy-cell link="/tab" title="tab" subTitle="切换"></cy-cell>
         <cy-cell link="/swiper" title="swiper" subTitle="轮播"></cy-cell>
+        <cy-cell link="/stepper" title="stepper" subTitle="进步器"></cy-cell>
+        <cy-cell link="/search" title="search" subTitle="搜索框"></cy-cell>
+        <cy-cell link="/upload" title="upload" subTitle="上传"></cy-cell>
     </div>
 </template>
 

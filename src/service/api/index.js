@@ -12,9 +12,12 @@ const api = {
   config,   //this.$api.config 取配置信息
   // get 
   list: (params) => get(`${url}login/loginact`, params),
+
   qu: (params) => post(`${url}agent-web/miniprogram/useCaseService/queryUseCaseNew`, params),
-  // post   
-  findByPage: (params) => post(`${url}base-api-miniprogram/miniprogram-project/findByPage`, params)
+  findByPage: (params) => post(`${url}base-api-miniprogram/miniprogram-project/findByPage`, params),
+
+  uploader: (params) => post(`${url}base-api-miniprogram/miniprogram-project/findByPage`, params)
+
 
 }
 

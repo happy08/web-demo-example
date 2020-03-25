@@ -32,20 +32,21 @@ module.exports = {
                 deleteOriginalAssets: false//压缩后保留原文件
             }));
 
-            // config.performance = {
-            //     hints: 'warning',
-            //     //入口起点的最大体积 整数类型（以字节为单位）
-            //     maxEntrypointSize: 50000000,
-            //     //生成文件的最大体积 整数类型（以字节为单位 300k）
-            //     maxAssetSize: 30000000,
-            //     //只给出 js 文件的性能提示
-            //     // assetFilter: function(assetFilename) {
-            //     //     return assetFilename.endsWith('.js');
-            //     // }
-            // }
-
+            config.performance = {
+                hints: 'warning',
+                //入口的最大体积 整数类型（以字节为单位 500K）
+                maxEntrypointSize: 50000000,
+                //生成文件的最大体积
+                maxAssetSize: 30000000,
+                //只给出 js 文件的性能提示
+                // assetFilter: function(assetFilename) {
+                //     return assetFilename.endsWith('.js');
+                // }
+            }
         }
-
+    },
+    chainWebpack: config => {
+        // 移除prefetch插件 首屏预加载
+        config.plugins.delete('prefetch')
     }
-
 };

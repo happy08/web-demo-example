@@ -13,7 +13,8 @@
                     </div>
                     <div class="cy-dialog-footer">
                         <cy-btn
-                            type="default"
+                            type="white"
+                            plain
                             angle
                             class="cy-dialog-btn"
                             v-if="!noCancel"
@@ -194,8 +195,6 @@ export default {
                 }
                 .cy-dialog-btn {
                     border-width: 0px !important;
-                    border-radius: 0px !important;
-                    background-color: #ffffff !important;
                 }
             }
         }

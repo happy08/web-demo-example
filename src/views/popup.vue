@@ -50,6 +50,7 @@
             <cy-cell>closeIcon: Boolean true 显示关闭按钮</cy-cell>
             <cy-cell>closeIconPosition: String "top-right" 关闭按钮位置 top-left top-right bottom-left bottom-right bottom-center</cy-cell>
             <cy-cell>round: Boolean false 圆角</cy-cell>
+            <cy-cell>overlay: String 遮罩层 可选值none,transparent,#f33具体颜色值。为none时不显示，否则是背景色</cy-cell>
         </div>
     </div>
 </template>

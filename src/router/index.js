@@ -7,9 +7,10 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/home.vue'),
+    component: () => import(/* webpackChunkName: "home" */ '@/views/home.vue'),
     meta: {
       index: 0,
+      title: "首页"
     }
   },
   {
@@ -18,25 +19,28 @@ const routes = [
     component: () => import('@/views/home.vue'),
     meta: {
       index: 0,
-      keepAlive: false
+      keepAlive: false,
+      title: "首页"
     }
   },
   {
     path: '/cell',
     name: 'cell',
-    component: () => import('@/views/cell.vue'),
+    component: () => import(/* webpackChunkName: "home" */ '@/views/cell.vue'),
     meta: {
       index: 1,
-      keepAlive: false
+      keepAlive: false,
+      title: "cell"
     }
   },
   {
     path: '/image',
     name: 'image',
-    component: () => import('@/views/image.vue'),
+    component: () => import(/* webpackPrefetch: true */ '@/views/image.vue'), // 入口预加载
     meta: {
       index: 0,
-      keepAlive: false
+      keepAlive: false,
+      title: "image"
     }
   },
   {
@@ -45,7 +49,8 @@ const routes = [
     component: () => import('@/views/row.vue'),
     meta: {
       index: 1,
-      keepAlive: false
+      keepAlive: false,
+      title: "row"
     }
   },
   {
@@ -166,6 +171,24 @@ const routes = [
     }
   },
   {
+    path: '/popup_datetime',
+    name: 'popup_datetime',
+    component: () => import('@/views/popup_datetime.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
+  {
+    path: '/keyboard_car',
+    name: 'keyboard_car',
+    component: () => import('@/views/keyboard_car.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
+  {
     path: '/picker',
     name: 'picker',
     component: () => import('@/views/picker.vue'),
@@ -201,7 +224,33 @@ const routes = [
       keepAlive: false
     }
   },
-
+  {
+    path: '/stepper',
+    name: 'stepper',
+    component: () => import('@/views/stepper.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/search.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: () => import('@/views/upload.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
 
 ]
 
@@ -218,6 +267,7 @@ router.beforeEach((to, from, next) => {
     ele.cancel()
     window.__axiosPromiseArr.shift()
   })
+  document.title = to.meta.title || "车内大健康"
   next()
 })
 

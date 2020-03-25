@@ -200,10 +200,11 @@ input {
         }
     }
 }
+//$name, $background, $color
 @include setCyBtn("blue", #1989fa, #1989fa);
 @include setCyBtn("green", #4fc08d, #4fc08d);
 @include setCyBtn("yellow", #eb7f51, #eb7f51);
 @include setCyBtn("red", #e64340, #e64340);
 @include setCyBtn("grey", #bebebe, #5f5e5e);
-//·······可继续扩展·······
+@include setCyBtn("white", #ffffff, #333333);
 </style>

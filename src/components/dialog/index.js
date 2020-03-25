@@ -17,7 +17,8 @@ let dialog = function (options) {
     if (options.id && dialogDom) {
         dialogDom.parentNode.replaceChild(instance.$el, dialogDom);
     } else {
-        document.body.appendChild(instance.$el);
+        document.getElementById("app").firstChild.appendChild(instance.$el);
+        //document.body.appendChild(instance.$el);
     }
     setTimeout(() => {
         //  设置z-index保证最新的弹窗再最上面

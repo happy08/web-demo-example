@@ -32,16 +32,5 @@ var utils = {
         return url && typeof url !== 'object' ? url : 'javascript:void(0);'
     },
 
-    /** 去空格
-    * @param str:string
-    */
-    trim(str) {
-        str = str.replace(/^\s\s*/, '');
-        let ws = /\s/,
-            i = str.length;
-        while (ws.test(str.charAt(--i)));
-        return str.slice(0, i + 1);
-    }
-
 }
 export default utils

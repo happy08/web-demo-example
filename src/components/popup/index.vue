@@ -21,7 +21,7 @@
                 </slot>
             </div>
         </transition>
-        <cy-overlay :show="value" @click.native="handleClose"></cy-overlay>
+        <cy-overlay :style="styleOverlay" :show="value" @click.native="handleClose"></cy-overlay>
     </div>
 </template>
 <script>
@@ -56,6 +56,10 @@ export default {
             type: Boolean,
             default: true
         },
+        overlay: {
+            type: String,
+            default: true
+        },
         closeIconPosition: {
             type: String,
             default: "top-right"
@@ -81,6 +85,14 @@ export default {
                     width: this.width,
                     height: this.height,
                     background: this.background
+                }
+            ];
+        },
+        styleOverlay() {
+            const overlay = this.overlay;
+            return [
+                {
+                    [overlay === "none" ? "display" : "background"]: overlay
                 }
             ];
         }

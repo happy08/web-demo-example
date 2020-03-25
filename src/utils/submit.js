@@ -6,14 +6,15 @@ import { regular, validator } from "./validator";
 import Toast from "@/components/toast";
 
 const submit = (option) => {
-    var data = option.data || {},
+    const data = option.data || {},
         api = option.api
     return new Promise((resolve, reject) => {
         validator(option)
             .then(() => {
-                Toast.loading("拼命加载中…")
+                Toast.loading("加载中…")
                 api(data)
                     .then((res) => {
+                        console.log('!!res', !!res);
                         !!res && resolve(res)
                     })
                     .catch((err) => { //接口报错

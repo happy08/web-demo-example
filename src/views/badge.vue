@@ -2,8 +2,8 @@
     <div>
         <base-header title="badge"></base-header>
 
-<cy-badge text="2" color="#f33"></cy-badge>
-<cy-badge text="2" color="#f33" plain></cy-badge>
+        <cy-badge text="2" color="#f33"></cy-badge>
+        <cy-badge text="2" color="#f33" plain></cy-badge>
 
         <div>
             <cy-cell>## badge</cy-cell>
@@ -12,8 +12,6 @@
             <cy-cell>color: String “” 颜色</cy-cell>
             <cy-cell>plain: Boolean “” 边框模式</cy-cell>
         </div>
-
-         
     </div>
 </template>
 

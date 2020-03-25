@@ -134,7 +134,7 @@ export function post(url, params) {
         resolve(res.data);
       })
       .catch(err => {
-        if (!params.showMsg) {
+        if (!params.showMsg) { //错误不提示
           reject(err.data)
         }
       })
