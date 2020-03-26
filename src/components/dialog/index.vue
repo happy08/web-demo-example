@@ -14,6 +14,7 @@
                     <div class="cy-dialog-footer">
                         <cy-btn
                             type="white"
+                            lg
                             plain
                             angle
                             class="cy-dialog-btn"
@@ -21,6 +22,7 @@
                             @click.native="handleCancel"
                         >{{cancelTxt}}</cy-btn>
                         <cy-btn
+                            lg
                             plain
                             angle
                             class="cy-dialog-btn"

@@ -9,7 +9,7 @@ import './utils/rem'
 
 import "./components/plugin"
 import './components/_global.js' // 公共全局组件
-import './components/custom_components' // 自定义组件
+import './components/_custom' // 自定义组件
 
 Vue.prototype.$api = api;
 Vue.prototype.$utils = utils;

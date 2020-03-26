@@ -12,12 +12,14 @@ const submit = (option) => {
         validator(option)
             .then(() => {
                 Toast.loading("加载中…")
+                console.log('data', data);
                 api(data)
-                    .then((res) => {
-                        console.log('!!res', !!res);
+                    .then(res => {
+                        Toast.success("成功")
                         !!res && resolve(res)
                     })
-                    .catch((err) => { //接口报错
+                    .catch(err => { //接口报错
+                        Toast.fail("发送失败");
                         reject(err)
                     })
             })

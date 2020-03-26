@@ -2,7 +2,7 @@
 <template>
     <span
         v-text="text"
-        :class="['cy-badge',{'cy-badge-plain': !!plain}, {'cy-badge-dot': typeof text === 'undefined'}]"
+        :class="['cy-badge',{'cy-badge-plain': !!plain}, {'cy-badge-dot': typeof text === 'undefined' || !text}]"
         :style="style"
     ></span>
 </template>
@@ -37,7 +37,7 @@ export default {
     border: solid 1px $bradgeColor;
     color: #fff;
     font-size: 12px;
-    height: 16px;
+    height: auto;
     line-height: 14px;
     border-radius: 99px;
     padding: 0 6px;
@@ -48,7 +48,6 @@ export default {
         color: $bradgeColor;
     }
     &.cy-badge-dot {
-        height: auto;
         padding: 5px;
     }
 }

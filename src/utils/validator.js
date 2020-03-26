@@ -3,7 +3,7 @@
 */
 import schema from "async-validator";
 import Toast from "@/components/toast";
-import { Dialog } from "@/components/dialog";
+import { dialog } from "@/components/dialog";
 
 export const regular = {
     // 银行卡号码
@@ -43,17 +43,16 @@ export const validator = (option) => {
 
         const validator = new schema(rules);
         validator.validate(data, (errors, fields) => {
-            console.log('errors', errors);
             if (errors) {
                 Toast(errors[0].message)
             } else {
                 if (confirmMsg) { //有确认消息
                     setTimeout(() => { Toast.clear() }, 0)
-                    Dialog({
+                    dialog({
                         title: '提示',
                         content: confirmMsg,
                         confirm() {
-                            Toast.loading("拼命加载中…")
+                            Toast.loading("加载中…")
                             resolve()
                         },
                         cancel() {
@@ -61,6 +60,7 @@ export const validator = (option) => {
                         }
                     })
                 } else {
+                    console.log('resolve');
                     resolve()
                 }
             }

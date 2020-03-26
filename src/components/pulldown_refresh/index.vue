@@ -51,9 +51,7 @@ import cyLoading from "../loading/index.vue";
 //import Bubble from "../bubble/bubble.vue";
 //import deprecatedMixin from "../../common/mixins/deprecated";
 //import { camelize } from "../../common/lang/string";
-const COMPONENT_NAME = "cube-scroll";
-const DIRECTION_H = "horizontal";
-const DIRECTION_V = "vertical";
+
 const DEFAULT_REFRESH_TXT = "Refresh success";
 const DEFAULT_STOP_TIME = 600;
 const EVENT_CLICK = "click";
@@ -78,7 +76,7 @@ const DEFAULT_OPTIONS = {
     pullUpLoad: false
 };
 export default {
-    name: COMPONENT_NAME,
+    name: "cy-pulldown_refresh",
     //mixins: [ deprecatedMixin],
     components: {
         cyLoading
@@ -137,7 +135,7 @@ export default {
         },
         direction: {
             type: String,
-            default: DIRECTION_V
+            default: "vertical"
         },
         refreshDelay: {
             type: Number,
@@ -246,11 +244,9 @@ export default {
         }
     },
     activated() {
-        /* istanbul ignore next */
         this.enable();
     },
     deactivated() {
-        /* istanbul ignore next */
         this.disable();
     },
     mounted() {
@@ -279,8 +275,8 @@ export default {
                 {},
                 DEFAULT_OPTIONS,
                 {
-                    scrollY: this.direction === DIRECTION_V,
-                    scrollX: this.direction === DIRECTION_H,
+                    scrollY: this.direction === "vertical",
+                    scrollX: this.direction === "horizontal",
                     probeType: this.needListenScroll ? 3 : 1
                 },
                 this.options
@@ -360,7 +356,6 @@ export default {
             });
         },
         _handleNestScroll() {
-            // waiting scroll initial
             this.$nextTick(() => {
                 const innerScroll = this.scroll;
                 const outerScroll = this.parentScroll.scroll;
@@ -477,7 +472,6 @@ export default {
             }
             this.beforePullDown = false;
             this.isPullingDown = true;
-            console.log("pullingDown");
             this.$emit(EVENT_PULLING_DOWN);
         },
         _pullDownScrollHandle(pos) {

@@ -251,6 +251,24 @@ const routes = [
       keepAlive: false
     }
   },
+  {
+    path: '/pullup_loading',
+    name: 'pullup_loading',
+    component: () => import('@/views/pullup_loading.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
+  {
+    path: '/pulldown_refresh',
+    name: 'pulldown_refresh',
+    component: () => import('@/views/pulldown_refresh.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
 
 ]
 

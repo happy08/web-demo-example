@@ -24,6 +24,8 @@
         <cy-cell link="/stepper" title="stepper" subTitle="进步器"></cy-cell>
         <cy-cell link="/search" title="search" subTitle="搜索框"></cy-cell>
         <cy-cell link="/upload" title="upload" subTitle="上传"></cy-cell>
+        <cy-cell link="/pullup_loading" title="pullup_loading" subTitle="上拉加载更多"></cy-cell>
+        <cy-cell link="/pulldown_refresh" title="pulldown_refresh" subTitle="下拉刷新，上拉加载"></cy-cell>
     </div>
 </template>
 

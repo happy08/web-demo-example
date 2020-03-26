@@ -2,6 +2,7 @@
     <div>
         <base-header title="badge"></base-header>
 
+        <cy-badge :text="text" color="#f33"></cy-badge>
         <cy-badge text="2" color="#f33"></cy-badge>
         <cy-badge text="2" color="#f33" plain></cy-badge>
 
@@ -19,7 +20,9 @@
 export default {
     name: "home",
     data() {
-        return {};
+        return {
+            text: ""
+        };
     },
     components: {},
     created() {},
