@@ -26,6 +26,7 @@
         <cy-cell link="/upload" title="upload" subTitle="上传"></cy-cell>
         <cy-cell link="/pullup_loading" title="pullup_loading" subTitle="上拉加载更多"></cy-cell>
         <cy-cell link="/pulldown_refresh" title="pulldown_refresh" subTitle="下拉刷新，上拉加载"></cy-cell>
+        <cy-cell link="/round_dot" title="round_dot" subTitle="圆点"></cy-cell>
     </div>
 </template>
 
@@ -36,7 +37,7 @@ export default {
         return {};
     },
     components: {},
-    created() {},
+    created() { },
     computed: {},
 
     methods: {}

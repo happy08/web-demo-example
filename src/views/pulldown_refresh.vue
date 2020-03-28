@@ -2,7 +2,7 @@
     <div>
         <base-header title="下拉刷新"></base-header>
 
-        <div style="height:300px">
+        <div style="height:calc(100vh - 44px)">
             <cy-pulldown-refresh
                 ref="scroll"
                 :data="list"
@@ -15,7 +15,7 @@
                     link="/cell"
                     :key="index"
                     title="测试"
-                    subTitle="标题"
+                    :subTitle="'a'+Math.random()*10"
                 ></cy-cell>
             </cy-pulldown-refresh>
         </div>
@@ -49,11 +49,6 @@ export default {
                 { id: 1, lable: "标题" },
                 { id: 1, lable: "标题" }
             ]
-            // options: {
-            //     // pullDownRefresh: true,
-            //     pullUpLoad: true
-            //     // scrollbar: true
-            // }
         };
     },
     components: {},
@@ -61,9 +56,10 @@ export default {
     computed: {
         options() {
             return {
-                pullDownRefresh: true,
-                pullUpLoad: true,
-                scrollbar: true
+                pullDownRefresh: {
+                    threshold: 60
+                },
+                pullUpLoad: true
             };
         }
     },
@@ -86,18 +82,14 @@ export default {
         onPullingUp() {
             // 上拉加载更多
             setTimeout(() => {
-                if (this.page <= 1) {
+                if (this.page <= 3) {
                     console.log("1");
                     // 如果有新数据
-                    this.list = new Array(this.num * this.page);
+                    this.list.push(new Array(this.num));
+                    console.log("this.list", this.list);
                     this.page = this.page + 1;
-
-                    // 如果有新数据
-                    //this.list.unshift(1);
                 } else {
-                    console.log("2");
                     // 如果没有新数据
-                    //this.options.pullUpLoad = false;
                     this.$refs.scroll.forceUpdate();
                 }
             }, 1000);

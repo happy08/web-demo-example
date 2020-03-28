@@ -4,7 +4,7 @@
             <div class="cy-tab" :class="[{ scrollable }]" ref="nav">
                 <slot></slot>
                 <div class="cy-tab-ink-bar" :class="barClass" :style="barStyle">
-                    <span class="cy-tab-bar-inner" :style="innerBarStyle" v-if="customBarWidth"></span>
+                    <span class="cy-tab-bar-inner" :style="innerBarStyle" v-if="barWidth"></span>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@ export default {
         barActiveColor: [String, Array],
         defaultColor: String,
         disabledColor: String,
-        customBarWidth: String,
+        barWidth: String,
         preventDefault: Boolean,
         noScrollNum: {
             type: Number,
@@ -64,9 +64,9 @@ export default {
                 const nav = this.$refs.nav;
                 const count = this.scrollable
                     ? nav.offsetWidth /
-                      this.$children[
-                          this.currentIndex || 0
-                      ].$el.getBoundingClientRect().width
+                    this.$children[
+                        this.currentIndex || 0
+                    ].$el.getBoundingClientRect().width
                     : this.childrenNumber;
                 return `${this.currentIndex * (100 / count)}%`;
             }
@@ -76,9 +76,9 @@ export default {
                 const nav = this.$refs.nav;
                 const count = this.scrollable
                     ? nav.offsetWidth /
-                      this.$children[
-                          this.currentIndex || 0
-                      ].$el.getBoundingClientRect().width
+                    this.$children[
+                        this.currentIndex || 0
+                    ].$el.getBoundingClientRect().width
                     : this.childrenNumber;
                 return `${(count - this.currentIndex - 1) * (100 / count)}%`;
             }
@@ -90,7 +90,7 @@ export default {
                 ? `linear-gradient(90deg, ${this.barActiveColor[0]}, ${this.barActiveColor[1]})`
                 : this.barActiveColor;
             return {
-                width: this.customBarWidth,
+                width: this.barWidth,
                 background: barBackground || this.activeColor
             };
         },
@@ -103,7 +103,7 @@ export default {
                 height: this.barHeight + "px",
                 transition: !this.hasReady ? "none" : null
             };
-            if (!this.customBarWidth) {
+            if (!this.barWidth) {
                 const barArr = Array.isArray(this.barActiveColor);
                 const barBackground = barArr
                     ? `linear-gradient(90deg, ${this.barActiveColor[0]}, ${this.barActiveColor[1]})`
@@ -131,7 +131,6 @@ export default {
             this.direction = newIndex > oldIndex ? "forward" : "backward";
             //this.$emit("onIndexChange", newIndex, oldIndex);
             this.hasReady && this.scrollToActiveTab();
-            console.log("this.hasReady", this.hasReady);
         }
     },
     methods: {
@@ -141,7 +140,7 @@ export default {
             }
             const currentIndexTab = this.$children[this.currentIndex].$el;
             let count = 0;
-            // scroll animation
+            // scroll
             const step = () => {
                 const scrollDuration = 15;
                 const nav = this.$refs.nav;

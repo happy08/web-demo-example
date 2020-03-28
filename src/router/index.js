@@ -269,6 +269,15 @@ const routes = [
       keepAlive: false
     }
   },
+  {
+    path: '/round_dot',
+    name: 'round_dot',
+    component: () => import('@/views/round_dot.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
 
 ]
 

@@ -1,50 +1,12 @@
 <template>
     <div>
-        <base-header title="cell"></base-header>
-        <!-- <div class="nav-scroll-list-wrap">
-            <cy-pulldown-refresh ref="navScroll" direction="horizontal">
-                <div class="nav-wrapper">
-                    <div v-for="(item, index) in items" :key="index" class="nav-item">
-                        <cy-image :src="require('@/assets/img/1.jpg')"></cy-image>
-                    </div>
-                </div>
-            </cy-pulldown-refresh>
-        </div>-->
-
-        <div class="scroll-list-wrap">
-            <cy-pulldown-refresh
-                ref="scroll"
-                :data="items"
-                :options="options"
-                @pullingDown="onPullingDown"
-                @pullingUp="onPullingUp"
-            >
-                <div v-for="(item, index) in items" :key="index" class="nav-item">
-                    <div>
-                        dd
-                        <br />
-                        <br />
-                        <br />
-                        <cy-image
-                            style="width:100%;height:100px"
-                            :src="require('@/assets/img/1.jpg')"
-                        ></cy-image>
-                        <br />
-                    </div>
-                    <!--  -->
-                </div>
-            </cy-pulldown-refresh>
-        </div>
-        <!-- <cy-btn sm @click.native="curIndex=1">第2个</cy-btn>
         <cy-tab
-            customBarWidth="60%"
-            :noScrollNum="5"
+            v-model="curIndex"
+            barWidth="80%"
+            :noScrollNum="4"
             :barActiveColor="['#f33','#fa9']"
             :barHeight="4"
             @onItemClick="onItemClick"
-            :preventDefault="false"
-            @onBeforeIndexChange="onBeforeIndexChange"
-            v-model="curIndex"
             @onIndexChange="onIndexChange"
         >
             <cy-tab-item>
@@ -57,15 +19,10 @@
             <cy-tab-item>未发货</cy-tab-item>
         </cy-tab>
 
-        <div class="scroll-list-wrap">
-            <cy-pulldown-refresh
-                ref="scroll"
-                :data="items"
-                :options="options"
-                @pullingDown="onPullingDown"
-                @pullingUp="onPullingUp"
-            ></cy-pulldown-refresh>
-        </div>-->
+        <cy-tab1 v-if="curIndex==1">1</cy-tab1>
+        <cy-tab2 v-if="curIndex==2"></cy-tab2>
+
+        <!-- <cy-btn sm @click.native="curIndex=1">第2个</cy-btn> -->
 
         <div>
             <cy-cell>## tab</cy-cell>
@@ -75,7 +32,7 @@
             <cy-cell>barActiveColor: String "" bar选中颜色</cy-cell>
             <cy-cell>defaultColor: String "" 默认文字颜色</cy-cell>
             <cy-cell>disabledColor: String "" 禁止文字颜色</cy-cell>
-            <cy-cell>customBarWidth: String "100%" bar宽度 如 30px</cy-cell>
+            <cy-cell>barWidth: String "100%" bar宽度 如 30px</cy-cell>
             <cy-cell>preventDefault: Boolean 是否禁止自动切换 tab-item</cy-cell>
             <cy-cell>noScrollNum: Number 4 多少个内不滚动</cy-cell>
             <cy-cell>barPosition: String "bottom" bar位置 只能是bottom top</cy-cell>
@@ -96,99 +53,42 @@
 </template>
 
 <script>
+import cyTab1 from "./tab/tab1.vue"
+import cyTab2 from "./tab/tab2.vue"
 export default {
-    name: "home",
+    name: "tab",
     data() {
         return {
             curIndex: 2,
-            items: [
-                "a",
-                "b",
-                "c",
-                "a",
-                "b",
-                "c",
-                "a",
-                "b",
-                "c",
-                "a",
-                "b",
-                "c",
-                "a",
-                "b",
-                "c",
-                "a",
-                "b",
-                "c"
-            ]
+
         };
     },
-    components: {},
+    components: {
+        cyTab1,
+        cyTab2
+    },
     created() {
-        console.log("dd");
-        document.title = "123";
     },
     computed: {
-        options() {
-            return {
-                pullDownRefresh: {
-                    threshold: 60,
-                    stop: 40,
-                    txt: "更新成功"
-                },
-                pullUpLoad: {
-                    txt: "更新成功"
-                },
-                scrollbar: true
-            };
-        }
+
     },
-    wacth: {
-        curr(v, o) {
-            console.log("o", v, o);
+    watch: {
+        curIndex(nVal, oVal) {
+            console.log("o", nVal, oVal);
         }
     },
     methods: {
         onItemClick(i) {
             console.log("i", i);
         },
-        onBeforeIndexChange(currentIndex) {
-            console.log("onBeforeIndexChange", currentIndex);
-        },
+
         onIndexChange(val, oldVal) {
+
             console.log("onIndexChange", val, oldVal);
+            console.log('a', this.curIndex);
         },
 
-        onPullingDown() {
-            console.log("onPullingDown");
-            // 模拟更新数据
-            setTimeout(() => {
-                if (Math.random() > 0.5) {
-                    // 如果有新数据
-                    this.items.unshift("e");
-                } else {
-                    // 如果没有新数据
-                    this.$refs.scroll.forceUpdate();
-                }
-            }, 1000);
-        },
-        onPullingUp() {
-            console.log("onPullingUp");
-            // 模拟更新数据
-            setTimeout(() => {
-                if (Math.random() > 0.5) {
-                    // 如果有新数据
-                    let newPage = ["rt"];
-                    this.items = this.items.concat(newPage);
-                } else {
-                    console.log("onPullingUp2");
 
-                    this.$refs.scroll.forceUpdate(true);
-
-                    // 如果没有新数据
-                }
-            }, 1000);
-        }
     }
 };
 </script>
@@ -212,8 +112,5 @@ export default {
     height: 100px;
     display: inline-block;
     padding: 0 5px;
-}
-.scroll-list-wrap {
-    height: calc(100vh - 44px);
 }
 </style>

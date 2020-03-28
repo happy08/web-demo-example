@@ -51,9 +51,13 @@ const DEFAULT_OPTIONS = {
     observeDOM: true,
     click: true,
     probeType: 1,
-    scrollbar: false,
-    pullDownRefresh: false,
-    pullUpLoad: false
+    scrollbar: true,
+    //pullDownRefresh: false,
+    pullUpLoad: true,
+    pullDownRefresh: {
+        threshold: 60,
+        stop: 40
+    }
 };
 export default {
     name: "cy-pulldown-refresh",
@@ -246,6 +250,7 @@ export default {
                 return;
             }
             this._calculateMinHeight();
+
             let options = Object.assign(
                 {},
                 DEFAULT_OPTIONS,
@@ -256,6 +261,7 @@ export default {
                 },
                 this.options
             );
+            console.log("options", options);
             this.scroll = new BScroll(this.$refs.wrapper, options);
             this.parentScroll &&
                 this.nestMode !== "none" &&
@@ -565,7 +571,7 @@ export default {
     align-items: center;
     transition: all;
     .before-trigger {
-        height: 70px;
+        height: 60px;
         line-height: 0;
         padding-top: 16px;
     }
