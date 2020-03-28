@@ -6,6 +6,7 @@
         :disabled="disabled"
         @click="handleClick"
     >
+        <cy-icon v-if="icon" :type="icon"></cy-icon>
         <slot>{{ text }}</slot>
     </button>
 </template>
@@ -25,6 +26,7 @@ export default {
         lg: Boolean,
         sm: Boolean,
         xs: Boolean,
+        icon: String,
         round: Boolean,
         angle: Boolean,
         plain: Boolean,
@@ -93,8 +95,24 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../assets/css/_variable.scss";
 @import "../../assets/css/_mixin.scss";
+/* Button start */
+$btnBorderRadius: 5px;
+$btnFontColor: #ffffff;
+$btnHeight: 44px;
+$btnFontSize: 15px;
+
+//lg类型 large
+$btnLgFontSize: 16px;
+$btnLgHeight: 50px;
+
+//sm类型 small
+$btnSmFontSize: 12px;
+$btnSmHeight: 30px;
+
+//xs类型 xsmall
+$btnXsFontSize: 12px;
+$btnXsHeight: 22px;
 
 .cy-btn {
     position: relative;
@@ -161,6 +179,10 @@ input {
     line-height: 1;
     font-size: $btnSmFontSize;
     border-radius: 3px;
+    .cy-icon {
+        width: 18px;
+        height: 18px;
+    }
 }
 .cy-btn-xs {
     display: inline-block;
@@ -170,6 +192,10 @@ input {
     line-height: 1;
     font-size: $btnXsFontSize;
     border-radius: 2px;
+    .cy-icon {
+        width: 15px;
+        height: 15px;
+    }
 }
 
 .cy-btn.cy-btn-no-border {

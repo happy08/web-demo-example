@@ -27,10 +27,7 @@
                 :bubbleY="bubbleY"
             >
                 <div class="cube-pulldown-wrapper" :style="pullDownStyle">
-                    <div class="before-trigger" v-show="beforePullDown">
-                        加载zhon
-                        <!-- <bubble :y="bubbleY" class="bubble"></bubble> -->
-                    </div>
+                    <div class="before-trigger" v-show="beforePullDown">释放刷新</div>
                     <div class="after-trigger" v-show="!beforePullDown">
                         <div v-show="isPullingDown" class="loading">
                             <cy-loading></cy-loading>
@@ -48,25 +45,8 @@
 <script>
 import BScroll from "better-scroll";
 import cyLoading from "../loading/index.vue";
-//import Bubble from "../bubble/bubble.vue";
-//import deprecatedMixin from "../../common/mixins/deprecated";
-//import { camelize } from "../../common/lang/string";
 
-const DEFAULT_REFRESH_TXT = "Refresh success";
-const DEFAULT_STOP_TIME = 600;
-const EVENT_CLICK = "click";
-const EVENT_PULLING_DOWN = "pullingDown";
-const EVENT_PULLING_UP = "pullingUp";
-const EVENT_SCROLL = "scroll";
-const EVENT_BEFORE_SCROLL_START = "before-scroll-start";
-const EVENT_SCROLL_END = "scroll-end";
-const NEST_MODE_NONE = "none";
-const NEST_MODE_NATIVE = "native";
-const SCROLL_EVENTS = [
-    EVENT_SCROLL,
-    EVENT_BEFORE_SCROLL_START,
-    EVENT_SCROLL_END
-];
+const SCROLL_EVENTS = ["scroll", "before-scroll-start", "scroll-end"];
 const DEFAULT_OPTIONS = {
     observeDOM: true,
     click: true,
@@ -76,13 +56,10 @@ const DEFAULT_OPTIONS = {
     pullUpLoad: false
 };
 export default {
-    name: "cy-pulldown_refresh",
-    //mixins: [ deprecatedMixin],
+    name: "cy-pulldown-refresh",
     components: {
         cyLoading
-        //Bubble
     },
-
     provide() {
         return {
             parentScroll: this
@@ -143,7 +120,7 @@ export default {
         },
         nestMode: {
             type: String,
-            default: NEST_MODE_NONE
+            default: "none"
         }
     },
     data() {
@@ -177,27 +154,25 @@ export default {
             const pullUpLoad = this.pullUpLoad;
             const txt = pullUpLoad && pullUpLoad.txt;
             const moreTxt = (txt && txt.more) || "";
-            const noMoreTxt = (txt && txt.noMore) || "";
+            const noMoreTxt = (txt && txt.noMore) || "没有更多了";
             return this.pullUpNoMore ? noMoreTxt : moreTxt;
         },
         refreshTxt() {
             const pullDownRefresh = this.pullDownRefresh;
-            return (
-                (pullDownRefresh && pullDownRefresh.txt) || DEFAULT_REFRESH_TXT
-            );
+            return (pullDownRefresh && pullDownRefresh.txt) || "更新成功";
         },
         finalScrollEvents() {
             const finalScrollEvents = this.scrollEvents.slice();
             if (!finalScrollEvents.length) {
-                this.listenScroll && finalScrollEvents.push(EVENT_SCROLL);
+                this.listenScroll && finalScrollEvents.push("scroll");
                 this.listenBeforeScroll &&
-                    finalScrollEvents.push(EVENT_BEFORE_SCROLL_START);
+                    finalScrollEvents.push("before-scroll-start");
             }
             return finalScrollEvents;
         },
         needListenScroll() {
             return (
-                this.finalScrollEvents.indexOf(EVENT_SCROLL) !== -1 ||
+                this.finalScrollEvents.indexOf("scroll") !== -1 ||
                 this.parentScroll
             );
         }
@@ -283,7 +258,7 @@ export default {
             );
             this.scroll = new BScroll(this.$refs.wrapper, options);
             this.parentScroll &&
-                this.nestMode !== NEST_MODE_NONE &&
+                this.nestMode !== "none" &&
                 this._handleNestScroll();
             this._listenScrollEvents();
             if (this.pullDownRefresh) {
@@ -316,9 +291,9 @@ export default {
             this.scroll &&
                 this.scroll.scrollToElement.apply(this.scroll, arguments);
         },
-        clickItem(item) {
-            this.$emit(EVENT_CLICK, item);
-        },
+        // clickItem(item) {
+        //     this.$emit("click", item);
+        // },
         async forceUpdate(dirty = false, nomore = false) {
             if (this.isPullDownUpdating) {
                 return;
@@ -333,9 +308,31 @@ export default {
                 this.isPullUpLoad = false;
                 this.scroll.finishPullUp();
                 this.pullUpNoMore = !dirty || nomore;
+                console.log("this.pullUpNoMore", this.pullUpNoMore, !dirty);
             }
             dirty && this.refresh();
         },
+
+        async forceUpdate(dirty = false, nomore = false) {
+            if (this.isPullDownUpdating) {
+                return;
+            }
+
+            if (this.pullDownRefresh && this.isPullingDown) {
+                this.isPullingDown = false;
+                this.isPullDownUpdating = true;
+                await this._waitFinishPullDown();
+                this.isPullDownUpdating = false;
+                await this._waitResetPullDown(dirty);
+            } else if (this.pullUpLoad && this.isPullUpLoad) {
+                this.isPullUpLoad = false;
+                this.scroll.finishPullUp();
+                this.pullUpNoMore = !dirty || nomore;
+            }
+
+            dirty && this.refresh();
+        },
+
         resetPullUpTxt() {
             this.pullUpNoMore = false;
         },
@@ -383,10 +380,7 @@ export default {
                     if (!innerScroll.initiated || innerScroll.isInTransition) {
                         return;
                     }
-                    if (
-                        this.nestMode === NEST_MODE_NATIVE &&
-                        !this.touchStartMoment
-                    ) {
+                    if (this.nestMode === "native" && !this.touchStartMoment) {
                         return;
                     }
                     const reachBoundary = this._checkReachBoundary(pos);
@@ -472,7 +466,7 @@ export default {
             }
             this.beforePullDown = false;
             this.isPullingDown = true;
-            this.$emit(EVENT_PULLING_DOWN);
+            this.$emit("pullingDown");
         },
         _pullDownScrollHandle(pos) {
             if (this.beforePullDown) {
@@ -503,10 +497,10 @@ export default {
         },
         _pullUpHandle() {
             this.isPullUpLoad = true;
-            this.$emit(EVENT_PULLING_UP);
+            this.$emit("pullingUp");
         },
         _waitFinishPullDown(next) {
-            const { stopTime = DEFAULT_STOP_TIME } = this.pullDownRefresh;
+            const { stopTime = 600 } = this.pullDownRefresh;
             return new Promise(resolve => {
                 setTimeout(() => {
                     this.scroll.finishPullDown();
@@ -571,28 +565,29 @@ export default {
     align-items: center;
     transition: all;
     .before-trigger {
-        height: 54px;
+        height: 70px;
         line-height: 0;
-        padding-top: 6px;
+        padding-top: 16px;
     }
     .after-trigger {
         .loading {
             padding: 8px 0;
         }
         .cube-pulldown-loaded {
-            padding: 12px 0;
+            padding: 8px 0;
         }
     }
 }
 
 .cube-pullup-wrapper {
+    height: 56px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
     .before-trigger {
-        padding: 22px 0;
+        padding: 16px 0;
         min-height: 1em;
     }
     .after-trigger {
@@ -606,5 +601,14 @@ export default {
     &.cube-scroll-horizontal {
         display: inline-block;
     }
+}
+.bscroll-vertical-scrollbar {
+    width: 2px !important;
+    right: 4px !important;
+}
+.bscroll-indicator {
+    background: #aaaaaa !important;
+    border: none !important;
+    border-radius: 1px !important;
 }
 </style>

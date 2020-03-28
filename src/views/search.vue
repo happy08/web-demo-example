@@ -3,7 +3,7 @@
         <base-header title="search"></base-header>
 
         <cy-search v-model="keyword" @search="onSearch" placeholder="请输入关键词"></cy-search>
-
+        {{keyword}}
         <div>
             <cy-cell>## search</cy-cell>
             <cy-cell>字段 类型 默认值 说明</cy-cell>
@@ -21,7 +21,7 @@ export default {
     name: "search",
     data() {
         return {
-            keyword: "23"
+            keyword: ""
         };
     },
     components: {},
@@ -29,9 +29,7 @@ export default {
     computed: {},
 
     methods: {
-        onSearch() {
-            console.log("keyword", this.keyword);
-        }
+        onSearch() {}
     }
 };
 </script>

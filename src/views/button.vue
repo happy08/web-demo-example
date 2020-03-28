@@ -3,7 +3,7 @@
         <base-header title="button"></base-header>
         <div class="pd-10 bgwhite">
             <cy-btn @click.native="onClick" type="grey" plain1 round>灰色</cy-btn>
-            <cy-btn @click.native="onClick" type="blue" plain1 round>蓝色</cy-btn>
+            <cy-btn @click.native="onClick" type="blue" icon="eye" plain1 round>蓝色</cy-btn>
             <br />
             <cy-btn :background="['#f91','#f41']" shadow="0 0 10px #f91">背景渐变投影</cy-btn>
             <br />
@@ -15,7 +15,7 @@
             <cy-btn background="#f49" lg plain angle>直角</cy-btn>
             <br />
             <cy-btn background="#f49" inline round>自定义背景</cy-btn>
-            <cy-btn background="#f49" sm round>sm</cy-btn>
+            <cy-btn background="#f49" sm round icon="eye">sm</cy-btn>
             <cy-btn background="#f49" xs round>按钮</cy-btn>
             <cy-btn background="#f49" xs plain round>按钮</cy-btn>
 

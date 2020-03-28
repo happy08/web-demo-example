@@ -61,6 +61,7 @@ export default {
     },
     destroyed() {
         clearTimeout(this.timer);
+        this.timer = null;
     }
 };
 </script>

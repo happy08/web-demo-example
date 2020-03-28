@@ -72,8 +72,11 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../../assets/css/_variable";
 @import "../../assets/css/_mixin";
+
+/* Cell */
+$cellFontSize: 15px;
+$cellFontSizeSmall: 14px;
 
 .cy-cell {
     position: relative;

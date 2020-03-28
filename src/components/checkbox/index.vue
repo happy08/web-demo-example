@@ -8,7 +8,7 @@
             :checked.prop="isChecked"
             :value="submittedValue"
             :style="style"
-            @change="handleChange"
+            @change="onChange"
         />
         <span
             :class="['cy-checkbox-label',{'cy-checkbox-disabled':disabled}]"
@@ -51,7 +51,10 @@ export default {
             type: Boolean,
             default: false
         },
-        background: [String, Array],
+        background: {
+            type: [String, Array],
+            default: "#f12"
+        },
         size: {
             type: [String, Number]
         },
@@ -123,7 +126,7 @@ export default {
                     : false)
             );
         },
-        handleChange(event) {
+        onChange(event) {
             const isCheckedPrevious = this.isChecked;
             const isChecked = event.target.checked;
 
@@ -152,7 +155,6 @@ export default {
 .cy-checkbox {
     display: inline-flex;
     align-items: center;
-    margin-right: 10px;
     line-height: 1;
     .cy-checkbox-label {
         padding-left: 3px;

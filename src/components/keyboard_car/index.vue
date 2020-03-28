@@ -166,7 +166,7 @@ export default {
             if (text === "确定") {
                 // 确定，触发键盘隐藏
                 this.showValue = false;
-                this.keyboardType = "province";
+                //this.keyboardType = "province";
             } else {
                 this.carNo = text;
                 this.keyboardType = "letter";
@@ -189,29 +189,29 @@ export default {
             } else if (id === 37) {
                 // 确定，触发键盘隐藏
                 this.showValue = false;
-                this.keyboardType = "province";
+                //this.keyboardType = "province";
             } else {
-                // 普通输入
-                this.carNo = this.carNo + text;
                 if (this.carNo.length > 7) {
                     // 最多8位
                     this.showValue = false;
-                    setTimeout(() => {
-                        this.keyboardType = "province";
-                    }, 500);
+                    // setTimeout(() => {
+                    //     this.keyboardType = "province";
+                    // }, 500);
+                } else {
+                    // 普通输入
+                    this.carNo = this.carNo + text;
                 }
             }
-        },
-        handeChangeHidden() {
-            // 确定，触发键盘隐藏
-            this.showValue = false;
-            this.keyboardType = "province";
         }
     }
 };
 </script>
 
 <style lang="scss">
+.cy-carkeyboard {
+    height: 100%;
+    background-color: #d0d3da;
+}
 .cy-carkeyboard-province,
 .cy-carkeyboard-letter,
 .cy-carkeyboard-lastletter {
@@ -230,7 +230,7 @@ export default {
 }
 
 .cy-carKeyboard-item {
-    padding: 5px;
+    padding: 5px 3px;
     width: 14.285%;
     -webkit-touch-callout: none; /*系统默认菜单被禁用*/
     -webkit-user-select: none; /*webkit浏览器*/
@@ -244,11 +244,11 @@ export default {
     width: 100%;
     border-radius: 4px;
     background: #fff;
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
     line-height: 36px;
     text-align: center;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .cy-carkeyboard-item-17 .text {

@@ -28,7 +28,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../assets/css/_variable";
+/* Bradge */
+$bradgeColor: #e64340;
 
 .cy-badge {
     display: inline-block;

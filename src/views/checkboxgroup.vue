@@ -2,6 +2,17 @@
     <div>
         <base-header title="checkbox"></base-header>
 
+        <cy-cell :titleIcon="require('@/assets/img/1.jpg')" title="cell" subTitle="单元格" desc="描述">
+            <template #desc>
+                <cy-checkbox v-model="value" @onChange="onChange" round></cy-checkbox>
+            </template>
+        </cy-cell>
+        <cy-cell title="cell">
+            <template #desc>
+                <cy-checkbox v-model="value" round :background="['#fa3','#f12']"></cy-checkbox>
+            </template>
+        </cy-cell>
+
         <cy-checkboxgroup
             vertical
             ref="checkboxGroup"
@@ -46,6 +57,7 @@ export default {
     name: "home",
     data() {
         return {
+            value: "选项A",
             data: [
                 { id: 11, value: "选项A", label: "选项B", falseValue: "falsv" },
                 {

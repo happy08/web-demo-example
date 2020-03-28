@@ -55,7 +55,10 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../../assets/css/_variable";
+/* Switch */
+$switchBgColorActive: #1989fa;
+$switchBgColor: #fafafa;
+$switchFontSize: 28px;
 
 .cy-switch {
     position: relative;

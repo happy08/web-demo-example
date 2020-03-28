@@ -92,7 +92,7 @@ export default {
             const overlay = this.overlay;
             return [
                 {
-                    [overlay === "none" ? "display" : "background"]: overlay
+                    [overlay == "hidden" ? "visibility" : "background"]: overlay
                 }
             ];
         }

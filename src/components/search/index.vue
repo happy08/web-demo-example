@@ -1,14 +1,16 @@
 <template>
     <div class="cy-search">
-        <cy-field v-model="currentValue" :placeholder="placeholder">
-            <template #label>
-                <cy-icon class="cy-search-icon" type="search" color="#888"></cy-icon>
-            </template>
+        <form action="javascript:void 0">
+            <cy-field v-model="currentValue" :placeholder="placeholder" @keyup.enter="onSearch">
+                <template #label>
+                    <cy-icon class="cy-search-icon" type="search" color="#888" size="25"></cy-icon>
+                </template>
 
-            <template #default>
-                <div class="cy-search-btn" @click.stop="onSearch">搜索</div>
-            </template>
-        </cy-field>
+                <template #default>
+                    <div class="cy-search-btn" @click="onSearch">搜索</div>
+                </template>
+            </cy-field>
+        </form>
     </div>
 </template>
 <script>
@@ -42,7 +44,13 @@ export default {
     },
     methods: {
         onSearch() {
-            this.$emit("search", this.currentValue);
+            if (this.currentValue) {
+                console.log("1");
+                document.activeElement.blur();
+                this.$emit("search");
+            } else {
+                this.$toast(this.placeholder || "请输入关键词");
+            }
         }
     }
 };
@@ -58,6 +66,9 @@ export default {
         padding: 0 8px 0 40px;
         border-radius: 50px;
         background: #f0f0f0;
+        .cy-field-input {
+            height: 40px;
+        }
     }
     .cy-search-btn {
         color: #666666;
