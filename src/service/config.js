@@ -1,19 +1,28 @@
-const development = {  //测试配置
-  DOMAIN_BASE: 'hedgingapi.bicir.net', //域名
-  DOMAIN_WWW: 'https://coupon.mynatapp.cc/', //请求地址
-  DOMAIN_VERTIFY: 'http://hedgingapi.bicir.net/v1/Login/verify', //图形验证码地址
+//测试配置
+const development = {
+  DOMAIN_BASE: 'https://agent.wlyinfo.com/', //域名
+  DOMAIN_API: 'https://coupon.mynatapp.cc/', //请求地址
   //DOMAIN_MAIN: '',  //其他地址
-  API_PATH: '',       //接口路径  api/
-  API_VERSION: 'v1/', //版本
+  PATH_API: '',       //接口路径  api/
+  VERSION_API: '', //版本
 }
 
-const production = {  //线上配置
+// const config = {
+//     serverApi: 'https://agent.wlyinfo.com', // 业务域名接口，
+//     fileApi: 'https://agent.wlyinfo.com', // 文件上传下载接口
+//     deviceApi: 'https://www.haoanda.cn', // 设备api
+//     scanApi: 'https://www.haoanda.cn', // 扫码API
+//     env: 'pro' // 开发环境 dev/pro
+// }
+
+
+//线上配置
+const production = {
   DOMAIN_BASE: 'test.com',
-  DOMAIN_WWW: 'https://coupon.mynatapp.cc/',
-  DOMAIN_VERTIFY: '', //图形验证码地址
-  //DOMAIN_MAIN: '',
-  API_PATH: 'api/',
-  API_VERSION: '1.0/',
+  DOMAIN_API: 'https://coupon.mynatapp.cc/',
+  //DOMAIN_MAIN: '', //其他地址
+  PATH_API: '',       //接口路径  api/
+  VERSION_API: '', //版本
 }
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -25,4 +34,3 @@ else configs = production
 export const config = configs
 
 
-//其他常量...

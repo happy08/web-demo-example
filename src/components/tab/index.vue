@@ -15,10 +15,13 @@
 import { parentMixin } from "./tab-mixin";
 
 export default {
-    name: "tab",
+    name: "cy-tab",
     mixins: [parentMixin],
     props: {
-        value: Number,
+        value: {
+            type: Number,
+            default: 0
+        },
         barHeight: {
             type: [Number, String],
             default: 2
@@ -64,9 +67,9 @@ export default {
                 const nav = this.$refs.nav;
                 const count = this.scrollable
                     ? nav.offsetWidth /
-                    this.$children[
-                        this.currentIndex || 0
-                    ].$el.getBoundingClientRect().width
+                      this.$children[
+                          this.currentIndex || 0
+                      ].$el.getBoundingClientRect().width
                     : this.childrenNumber;
                 return `${this.currentIndex * (100 / count)}%`;
             }
@@ -76,9 +79,9 @@ export default {
                 const nav = this.$refs.nav;
                 const count = this.scrollable
                     ? nav.offsetWidth /
-                    this.$children[
-                        this.currentIndex || 0
-                    ].$el.getBoundingClientRect().width
+                      this.$children[
+                          this.currentIndex || 0
+                      ].$el.getBoundingClientRect().width
                     : this.childrenNumber;
                 return `${(count - this.currentIndex - 1) * (100 / count)}%`;
             }

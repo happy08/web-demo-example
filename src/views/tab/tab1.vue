@@ -13,8 +13,8 @@
                     <br />
                 </div>
             </div>
-            <div class="pd-15 flex center">
-                <cy-loading text="加载中……" v-show="dataList && dataList.length<=0"></cy-loading>
+            <div class="pd-15 flex center" v-show="!dataList">
+                <cy-loading text="加载中……"></cy-loading>
             </div>
         </cy-pulldown-refresh>
     </div>
@@ -25,15 +25,27 @@ export default {
     name: "tab1",
     data() {
         return {
-            dataList: []
+            // options: {
+            //     pullDownRefresh: {
+            //         threshold: 60,
+            //         stop: 40,
+            //         txt: '更新成功22'
+            //     }
+            // },
+
+            noData: true,
+            dataList: null //"a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c"
         };
     },
     components: {},
     created() {
         setTimeout(() => {
-            this.dataList = ["a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c"]
+            this.dataList = []
+            //this.$refs.scroll.forceUpdate();
+            // this.options.pullUpLoad = false
+            console.log('tab1');
         }, 2000)
-        console.log('tab1');
+
     },
     computed: {
         options() {
@@ -43,9 +55,7 @@ export default {
                     stop: 40,
                     txt: "更新成功"
                 },
-                pullUpLoad: {
-                    txt: "更新成功"
-                },
+                pullUpLoad: true,
 
             };
         }
@@ -57,7 +67,7 @@ export default {
             setTimeout(() => {
                 if (Math.random() > 0.5) {
                     // 如果有新数据
-                    this.dataList.unshift("e");
+                    // this.dataList.unshift("e");
                 } else {
                     // 如果没有新数据
                     this.$refs.scroll.forceUpdate();
@@ -68,14 +78,14 @@ export default {
             console.log("onPullingUp");
             // 模拟更新数据
             setTimeout(() => {
-                if (Math.random() > 0.5) {
+                if (Math.random() > 10.5) {
                     // 如果有新数据
                     let newPage = ["rt"];
                     this.dataList = this.dataList.concat(newPage);
                 } else {
                     console.log("onPullingUp2");
 
-                    this.$refs.scroll.forceUpdate(true);
+                    this.$refs.scroll.forceUpdate();
 
                     // 如果没有新数据
                 }

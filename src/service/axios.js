@@ -7,11 +7,12 @@ import toast from "@/components/toast"
 // 创建axios实例
 let instance = axios.create({
   timeout: 8000,
-  //withCredentials: true,  // 设置 withCredentials 使请求带上 `cookies`
+  withCredentials: true,  // 设置 withCredentials 使请求带上 `cookies`
   headers: {
-    post: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    }
+    //post: {
+    'Content-Type': 'application/json' //'application/x-www-form-urlencoded;charset=UTF-8'
+    //'Cookie': '63_mini_agent_user_cookie=03afdbd66e7929b125f8597834fa83a4'
+    //}
   }
 });
 
