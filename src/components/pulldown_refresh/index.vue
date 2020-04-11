@@ -1,7 +1,7 @@
 <template>
     <div>
         <slot name="tab">
-            <div v-show="tab" class="nav" ref="navWarp">
+            <div v-if="tab" class="nav" ref="navWarp">
                 <div class="nav-item" ref="navItem">
                     <cy-tab
                         v-model="curTabIndex"
@@ -11,19 +11,15 @@
                         :barHeight="4"
                         @onIndexChange="onIndexChange"
                     >
-                        <cy-tab-item>
-                            已发货
-                            <cy-badge text="3">4</cy-badge>
+                        <cy-tab-item v-for="item in tabList" :key="item.name">
+                            {{item.name}}
                         </cy-tab-item>
-                        <cy-tab-item>未发货</cy-tab-item>
-                        <cy-tab-item>全部订单</cy-tab-item>
-                        <cy-tab-item>全部订单</cy-tab-item>
-                        <cy-tab-item>未发货</cy-tab-item>
+                         
                     </cy-tab>
                 </div>
             </div>
         </slot>
-        <div ref="mescroll" class="mescroll" :style="`top:${top}px`">
+        <div ref="mescroll" class="mescroll" :style="`top:${toTop}px`">
             <!--滑动区域-->
             <!-- <mescroll-vue
             ref="mescroll"
@@ -33,11 +29,15 @@
             style="top:0px"
             >-->
             <slot></slot>
-
-            <!--筛选条件; 模拟列表的重置和演示空布局的使用-->
-            <!--展示上拉加载的数据列表-->
-            <slot name="list">q</slot>
             <!-- </mescroll-vue> -->
+
+            <!-- 无数据 容器 -->
+            <div id="htmlEmpty">
+                <slot name="empty">
+                    wuw
+                </slot>
+            </div>
+
         </div>
     </div>
 </template>
@@ -46,21 +46,22 @@
 import MeScroll from "mescroll.js";
 import "mescroll.js/mescroll.min.css";
 
-import MescrollVue from "mescroll.js/mescroll.vue";
+//import MescrollVue from "mescroll.js/mescroll.vue";
 // 模拟数据
 
 export default {
     name: "mescrollOptions",
     components: {
-        MescrollVue
+        //MescrollVue
     },
     props: {
         tab: {
             type: Boolean,
             default: true
         },
+        tabList: Array,
         top: {
-            type: Number,
+            type: [Number, String],
             default: 0
         },
         curIndex: {
@@ -72,7 +73,9 @@ export default {
         return {
             mescroll: null,
             //dataList: [], // 列表数据
-            curTabIndex: 0 // 菜单
+            curTabIndex: 0, // 菜单
+            toTop: this.top ? this.top : this.tab ? 44 : 0, //距顶距离
+            
         };
     },
     watch: {
@@ -82,10 +85,12 @@ export default {
     },
     computed: {},
     mounted() {
+        console.log('tabList',this.tabList);
         this.mescroll = new MeScroll(this.$refs.mescroll, {
-            up: this.getMescrollUp()
-            //down: this.getMescrollDown()
+            up: this.getMescrollUp(),
+            down: this.getMescrollDown()
         });
+        
         this.$emit("init", this.mescroll);
 
         // safari不支持sticky  不理想会闪
@@ -149,97 +154,17 @@ export default {
         },
 
         // 上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
-        upCallback(page) {
-            this.$emit("upCallback", page, this.mescroll);
-            // 模拟联网
-            // this.getListDataFromNet(
-            //     this.curTabIndex,
-            //     page.num,
-            //     page.size,
-            //     arr => {
-            //         console.log("page.num", page.num);
-            //         // 如果是第一页需手动制空列表
-            //         if (page.num === 1) this.dataList = [];
-            //         // 把请求到的数据添加到列表
-            //         this.dataList = this.dataList.concat(arr);
-            //         // 数据渲染成功后,隐藏下拉刷新的状态
-            //         this.$nextTick(() => {
-            //             this.mescroll.endSuccess(arr.length);
-            //         });
-            //     },
-            //     () => {
-            //         this.mescroll.endErr();
-            //     }
-            // );
-        },
 
         // 切换菜单
         onIndexChange(newIndex, oldIndex) {
-            console.log("type", this.curTabIndex, newIndex, oldIndex);
             if (newIndex !== oldIndex) {
                 // console.log("d");
                 // //this.curTabIndex = newIndex;
                 // this.dataList = []; // 在这里手动置空列表,可显示加载中的请求进度
                 // //mescroll.resetUpScroll会触发up的callback
                 //this.mescroll.resetUpScroll(); // 刷新列表数据
-                this.$emit("onIndexChange", newIndex, this.mescroll);
+                this.$emit("onIndexChange", newIndex);
             }
-        },
-
-        /* 联网加载列表数据
-           在您的实际项目中,请参考官方写法: http://www.mescroll.com/api.html#tagUpCallback
-           请忽略getListDataFromNet的逻辑,这里仅仅是在本地模拟分页数据,本地演示用
-           实际项目以您服务器接口返回的数据为准,无需本地处理分页.
-           * */
-        getListDataFromNet(
-            curTabIndex,
-            pageNum,
-            pageSize,
-            successCallback,
-            errorCallback
-        ) {
-            // 延时一秒, 模拟联网
-            setTimeout(() => {
-                // axios.get("xxxxxx", {
-                //   params: {
-                //     num: page.num, //页码
-                //     size: page.size //每页长度
-                //   }
-                // }).then((response)=> {
-                let listData = [];
-                // curTabIndex 全部商品0; 奶粉1; 图书2;
-                if (curTabIndex === 0) {
-                    // 全部商品 (模拟分页数据)
-                    for (
-                        let i = (pageNum - 1) * pageSize;
-                        i < pageNum * pageSize;
-                        i++
-                    ) {
-                        if (i === mockData.length) break;
-                        listData.push(mockData[i]);
-                    }
-                } else if (curTabIndex === 1) {
-                    // 奶粉
-                    for (let j = 0; j < mockData.length; j++) {
-                        if (mockData[j].pdName.indexOf("奶") !== -1) {
-                            listData.push(mockData[j]);
-                        }
-                    }
-                } else if (curTabIndex === 2) {
-                    // 图书
-                    for (let k = 0; k < mockData.length; k++) {
-                        if (mockData[k].pdName.indexOf("图书") !== -1) {
-                            listData.push(mockData[k]);
-                        }
-                    }
-                }
-                // 回调
-                successCallback(listData);
-                // }).catch((e)=> {
-                //   //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
-                //   errorCallback&&errorCallback()
-                // })
-            }, 1000);
         },
 
         // mescroll组件初始化的回调,可获取到mescroll对象
@@ -248,13 +173,13 @@ export default {
             this.mescroll = mescroll;
         },
 
-        // 多mescroll的配置,需通过方法获取,保证每个配置是单例tabType
+        //下拉配置  多mescroll的配置,需通过方法获取,保证每个配置是单例tabType
         getMescrollDown() {
             //let isAuto = tabType === 0; // 第一个mescroll传入true,列表自动加载
             return {
                 use: true, // 是否初始化下拉刷新; 默认true
                 auto: true, // 是否在初始化完毕之后自动执行下拉回调callback; 默认true
-                autoShowLoading: true, // 如果在初始化完毕之后自动执行下拉回调,是否显示下拉刷新进度; 默认false
+                autoShowLoading: false, // 如果在初始化完毕之后自动执行下拉回调,是否显示下拉刷新进度; 默认false
                 isLock: false, // 是否锁定下拉,默认false;
                 isBoth: false, // 下拉刷新时,如果滑动到列表底部是否可以同时触发上拉加载;默认false,两者不可同时触发;
                 callback: mescroll => {
@@ -281,7 +206,6 @@ export default {
                 htmlContent:
                     '<p class="downwarp-progress"></p><p class="downwarp-tip"></p>', // 布局内容
                 inited: function(mescroll, downwarp) {
-                    console.log("down --> inited");
                     // 初始化完毕的回调,可缓存dom
                     mescroll.downTipDom = downwarp.getElementsByClassName(
                         "downwarp-tip"
@@ -290,7 +214,7 @@ export default {
                         "downwarp-progress"
                     )[0];
                 },
-                inOffset: function(mescroll) {
+                inOffset: (mescroll) => {
                     console.log("down --> inOffset");
                     // 进入指定距离offset范围内那一刻的回调
                     if (mescroll.downTipDom)
@@ -310,14 +234,6 @@ export default {
                 },
                 onMoving: function(mescroll, rate, downHight) {
                     // 下拉过程中的回调,滑动过程一直在执行; rate下拉区域当前高度与指定距离offset的比值(inOffset: rate<1; outOffset: rate>=1); downHight当前下拉区域的高度
-                    console.log(
-                        "down --> onMoving --> mescroll.optDown.offset=" +
-                            mescroll.optDown.offset +
-                            ", downHight=" +
-                            downHight +
-                            ", rate=" +
-                            rate
-                    );
                     if (mescroll.downProgressDom) {
                         let progress = 360 * rate;
                         mescroll.downProgressDom.style.webkitTransform =
@@ -327,28 +243,29 @@ export default {
                     }
                 },
                 beforeLoading: function(mescroll, downwarp) {
-                    console.log("down --> beforeLoading");
                     // 准备触发下拉刷新的回调
                     return false; // 如果要完全自定义下拉刷新,那么return true,此时将不再执行showLoading(),callback();
                 },
                 showLoading: function(mescroll) {
-                    console.log("down --> showLoading");
                     // 触发下拉刷新的回调
-                    if (mescroll.downTipDom)
+                    if (mescroll.downTipDom) {
                         mescroll.downTipDom.innerHTML =
                             mescroll.optDown.textLoading;
-                    if (mescroll.downProgressDom)
+                    }
+                    if (mescroll.downProgressDom) {
                         mescroll.downProgressDom.classList.add(
                             "mescroll-rotate"
                         );
+                    }
                 },
-                afterLoading: function(mescroll) {
-                    console.log("down --> afterLoading");
-                    // 结束下拉之前的回调. 返回延时执行结束下拉的时间,默认0ms; 常用于结束下拉之前再显示另外一小段动画,才去结束下拉的场景, 参考案例【dotJump】
+                afterLoading: (mescroll) => {
+                    // 结束下拉之前的回调. 返回延时执行结束下拉的时间,默认0ms; 常用于结束下拉之前再显示另外一小段动画,才去结束下拉的场景
                     return 0;
                 }
             };
         },
+
+        //上拉配置
         getMescrollUp() {
             return {
                 use: true, // 是否初始化上拉加载; 默认true
@@ -356,7 +273,29 @@ export default {
                 isLock: false, // 是否锁定上拉,默认false
                 isBoth: true, // 上拉加载时,如果滑动到列表顶部是否可以同时触发下拉刷新;默认false,两者不可同时触发; 这里为了演示改为true,不必等列表加载完毕才可下拉;
                 isBounce: true, // 是否允许ios的bounce回弹;默认true,允许回弹; 此处配置为false,可解决微信,QQ,Safari等等iOS浏览器列表顶部下拉和底部上拉露出浏览器灰色背景和卡顿2秒的问题
-                callback: this.upCallback, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
+                callback: page => {
+                    this.$emit("upCallback", page);
+                    // 模拟联网
+                    // this.getListDataFromNet(
+                    //     this.curTabIndex,
+                    //     page.num,
+                    //     page.size,
+                    //     arr => {
+                    //         console.log("page.num", page.num);
+                    //         // 如果是第一页需手动制空列表
+                    //         if (page.num === 1) this.dataList = [];
+                    //         // 把请求到的数据添加到列表
+                    //         this.dataList = this.dataList.concat(arr);
+                    //         // 数据渲染成功后,隐藏下拉刷新的状态
+                    //         this.$nextTick(() => {
+                    //             this.mescroll.endSuccess(arr.length);
+                    //         });
+                    //     },
+                    //     () => {
+                    //         this.mescroll.endErr();
+                    //     }
+                    // );
+                }, // 上拉回调,此处可简写; 相当于 callback: function (page, mescroll) { getListData(page); }
                 page: {
                     num: 0, // 当前页 默认0,回调之前会加1; 即callback(page)会从1开始
                     size: 10, // 每页数据条数
@@ -382,16 +321,23 @@ export default {
                     delay: 500 // 延时执行的毫秒数; 延时是为了保证列表数据或占位的图片都已初始化完成,且下拉刷新上拉加载中区域动画已执行完毕;
                 },
                 empty: {
+                    customId:"htmlEmpty",
                     // 列表第一页无任何数据时,显示的空提示布局; 需配置warpId才生效;
-                    warpId: "dataList", // 父布局的id; 如果此项有值,将不使用clearEmptyId的值;
-                    icon: "./static/mescroll/mescroll-empty.png", // 图标,默认null
-                    tip: "暂无相关数据~", // 提示
-                    btntext: "去逛逛 >", // 按钮,默认""
-                    btnClick: function() {
-                        // 点击按钮的回调,默认null
-                        alert("点击了按钮,具体逻辑自行实现");
-                    },
-                    supportTap: false // 默认点击事件用onclick,会有300ms的延时;如果您的运行环境支持tap,则可配置true;
+                    //warpId: "htmlEmpty", // 父布局的id; 如果此项有值,将不使用clearEmptyId的值;
+                    //icon: "./static/mescroll/mescroll-empty.png", // 图标,默认null
+                    //tip: "暂无相关数据",//"暂无相关数据",//"暂无相关数据", // 提示
+                    //btntext: "去逛逛 >", // 按钮,默认""
+                    //btnClick: function() {
+                    // 点击按钮的回调,默认null
+                    //alert("点击了按钮,具体逻辑自行实现");
+                    //},
+                    //supportTap: false // 默认点击事件用onclick,会有300ms的延时;如果您的运行环境支持tap,则可配置true;
+                },
+                showEmpty:() =>{
+                    console.log('showEmpty()');
+                },
+                removeEmpty:() =>{
+                    console.log('removeEmpty()');
                 },
                 //clearId: null, // 加载第一页时需清空数据的列表id; 如果此项有值,将不使用clearEmptyId的值; 使用vue则不能配置此项
                 //clearEmptyId: null, // 相当于同时设置了clearId和empty.warpId; 简化写法,默认null; 使用vue则不能配置此项
@@ -402,15 +348,16 @@ export default {
                     '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', // 上拉加载中的布局
                 htmlNodata: '<p class="upwarp-nodata">-- END --</p>', // 无数据的布局
                 inited: function(mescroll, upwarp) {
+                   
                     console.log("up --> inited");
                     // 初始化完毕的回调,可缓存dom 比如 mescroll.upProgressDom = upwarp.getElementsByClassName("upwarp-progress")[0];
                 },
-                showLoading: function(mescroll, upwarp) {
+                showLoading: (mescroll, upwarp) => {
                     console.log("up --> showLoading");
                     // 上拉加载中.. mescroll.upProgressDom.style.display = "block" 不通过此方式显示,因为ios快速滑动到底部,进度条会无法及时渲染
                     upwarp.innerHTML = mescroll.optUp.htmlLoading;
                 },
-                showNoMore: function(mescroll, upwarp) {
+                showNoMore: (mescroll, upwarp) => {
                     console.log("up --> showNoMore");
                     // 无更多数据
                     upwarp.innerHTML = mescroll.optUp.htmlNodata;
@@ -443,6 +390,9 @@ export default {
 </script>
 
 <style scoped>
+#htmlEmpty{
+    display: none;
+}
 /*以fixed的方式固定mescroll的高度*/
 .mescroll {
     position: absolute;

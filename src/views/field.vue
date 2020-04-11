@@ -16,6 +16,7 @@
                 <span class="text-yellow">发送验证码</span>
             </template>
         </cy-field>
+        <cy-field v-model="form.money" label="金额" placeholder="只能输入数字 保留2位小数"></cy-field>
         <cy-field label="发送验证发">
             <template #input>
                 <span class="text-grey">请选择</span>
@@ -51,7 +52,8 @@ export default {
             form: {
                 value1: "",
                 value2: "",
-                value3: ""
+                value3: "",
+                money: ""
             },
             rules: {
                 // name: {
@@ -87,6 +89,14 @@ export default {
     },
     components: {},
     created() {},
+    watch: {
+        "form.money"(nVal, oVal) {
+            console.log("dd", nVal);
+            this.form.money = nVal
+                .replace(/^(\d{0,9}(\.\d{0,2})?).*/, "$1")
+                .replace(/^\./g, "");
+        }
+    },
     computed: {},
 
     methods: {

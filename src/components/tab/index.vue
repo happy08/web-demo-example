@@ -1,7 +1,7 @@
 <template>
     <div class="cy-tab-wrap" :class="barPosition === 'top' ? 'cy-tab-bar-top' : ''">
         <div class="cy-tab-container">
-            <div class="cy-tab" :class="[{ scrollable }]" ref="nav">
+            <div class="cy-tab" :class="[{ 'cy-scrollable':scrollable }]" ref="nav">
                 <slot></slot>
                 <div class="cy-tab-ink-bar" :class="barClass" :style="barStyle">
                     <span class="cy-tab-bar-inner" :style="innerBarStyle" v-if="barWidth"></span>
@@ -241,17 +241,17 @@ export default {
     position: absolute;
 }
 
-.scrollable {
+.cy-scrollable {
     overflow-y: hidden;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 17px;
+    padding-bottom: 0px;
     box-sizing: content-box;
     &::-webkit-scrollbar {
         display: none;
     }
     .cy-tab-ink-bar {
-        bottom: 17px;
+        bottom: 0px;
         position: absolute;
     }
     .cy-tab-item {

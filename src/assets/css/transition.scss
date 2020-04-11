@@ -5,15 +5,14 @@
   animation-timing-function: ease-in-out;
 }
 @mixin make-animation($keyframeName) {
-  .#{$keyframeName}-enter-active, .#{$keyframeName}In,
-  .#{$keyframeName}-leave-active, .#{$keyframeName}Out {
+  .#{$keyframeName}-enter-active, .#{$keyframeName}-in,
+  .#{$keyframeName}-leave-active, .#{$keyframeName}-out {
       @extend %common-animation;
   }
-  .#{$keyframeName}-enter-active, .#{$keyframeName}In {
+  .#{$keyframeName}-enter-active, .#{$keyframeName}-in {
       animation-name: #{$keyframeName}-in;
-     
   }
-  .#{$keyframeName}-leave-active, .#{$keyframeName}Out {
+  .#{$keyframeName}-leave-active, .#{$keyframeName}-out {
       animation-name: #{$keyframeName}-out;
   }
 }
@@ -176,14 +175,5 @@
   }
 }
 
-//左右扩张
-// @keyframes cy-to-left-right{
-//   0% {
-//     width: 0;
-//   }
-//   100% {
-//     width: 100%;
-//   }
-// }
 
 

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import "@/assets/css/fonts/iconfont.js";
+import "./cy-fonts/iconfont.js";
 export default {
     name: "cy-icon",
     props: {
