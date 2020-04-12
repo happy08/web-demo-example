@@ -2,13 +2,13 @@
     <div>
         <cy-pulldown-refresh
             :tab="true"
+            :curTabIndex="curTabIndex"
             :tabList="tabList"
             :top="44"
             @init="pullInit"
             @pullDown="onPullDown"
             @onIndexChange="onIndexChange"
             @upCallback="upCallback"
-            :curIndex="curIndex"
         >
             <!--
             <template #tab>
@@ -30,7 +30,6 @@
                     <cy-tab-item>未发货</cy-tab-item>
                 </cy-tab>
             </template>-->
-
             <ul class="data-list">
                 <li v-for="pd in dataList" :key="pd.id">
                     <img class="pd-img" :imgurl="pd.pdImg" src="/static/mock/img/loading.png" />
@@ -41,20 +40,8 @@
             </ul>
 
             <template #empty>
-                <div @click="clickE">no data</div>
+                <div>no data</div>
             </template>
-            <!-- <ul class="data-list" v-show="curIndex===1">
-                        <li v-for="pd in dataList" :key="pd.id">
-                            <img
-                                class="pd-img"
-                                :imgurl="pd.pdImg"
-                                src="/static/mock/img/loading.png"
-                            />
-                            <p class="pd-name">{{pd.pdName}}</p>
-                            <p class="pd-price">{{pd.pdPrice}} 元</p>
-                            <p class="pd-sold">已售{{pd.pdSold}}件</p>
-                        </li>
-            </ul>-->
         </cy-pulldown-refresh>
     </div>
 </template>
@@ -77,16 +64,13 @@ export default {
                     name: "2"
                 }
             ],
-            curTabIndex: 0,
-            curIndex: 0,
+            curTabIndex: 1,
             dataList: []
         };
     },
+    curIndex: 12,
 
     methods: {
-        clickE() {
-            console.log("sdsd");
-        },
         pullInit(mescroll) {
             //mescroll.tabType = 0; // 加入标记,便于在回调中取到对应的list
             this.mescroll = mescroll;
@@ -94,8 +78,7 @@ export default {
         //切换tab
         onIndexChange(newIndex) {
             this.dataList = [];
-            this.curIndex = newIndex;
-            console.log("onIndexChange2", newIndex);
+            this.curTabIndex = newIndex;
             this.mescroll.resetUpScroll();
         },
         onPullDown() {
@@ -103,8 +86,8 @@ export default {
         },
         //上拉回调
         upCallback(page) {
-            console.log("mescroll2", this.curIndex, page, this.mescroll);
-            let curIndex = this.curIndex,
+            console.log("mescroll2", this.curTabIndex, page, this.mescroll);
+            let curTabIndex = this.curTabIndex,
                 pageNum = page.num,
                 pageSize = page.size;
             // 延时一秒, 模拟联网
@@ -116,9 +99,9 @@ export default {
                 //   }
                 // }).then((response)=> {
                 let listData = [];
-                console.log("curIndex2", curIndex);
-                // curIndex 全部商品0; 奶粉1; 图书2;
-                if (curIndex === 0) {
+                console.log("curTabIndex2", curTabIndex);
+                // curTabIndex 全部商品0; 奶粉1; 图书2;
+                if (curTabIndex === 0) {
                     // 全部商品 (模拟分页数据)
                     for (
                         let i = (pageNum - 1) * pageSize;
@@ -128,14 +111,14 @@ export default {
                         if (i === mockData.length) break;
                         listData.push(mockData[i]);
                     }
-                } else if (curIndex === 1) {
+                } else if (curTabIndex === 1) {
                     // 奶粉
                     for (let j = 0; j < mockData.length; j++) {
                         if (mockData[j].pdName.indexOf("奶2") !== -1) {
                             listData.push(mockData[j]);
                         }
                     }
-                } else if (curIndex === 2) {
+                } else if (curTabIndex === 2) {
                     // 图书
                     for (let k = 0; k < mockData.length; k++) {
                         if (mockData[k].pdName.indexOf("图书") !== -1) {

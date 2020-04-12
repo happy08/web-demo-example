@@ -5,6 +5,7 @@ import store from './store'
 import './assets/css/common.scss';
 import api from './service/api'   // api接口
 import utils from './utils/index' // 工具函数
+import './utils/directive/index' // 自定义指令
 import './utils/rem'
 
 import "./components/plugin"

@@ -11,10 +11,7 @@
                         :barHeight="4"
                         @onIndexChange="onIndexChange"
                     >
-                        <cy-tab-item v-for="item in tabList" :key="item.name">
-                            {{item.name}}
-                        </cy-tab-item>
-                         
+                        <cy-tab-item v-for="item in tabList" :key="item.name">{{item.name}}</cy-tab-item>
                     </cy-tab>
                 </div>
             </div>
@@ -32,11 +29,8 @@
             <!-- </mescroll-vue> -->
             <!-- 无数据 容器 -->
             <div id="htmlEmpty">
-                <slot name="empty">
-                    wuw
-                </slot>
+                <slot name="empty">wuw</slot>
             </div>
-
         </div>
     </div>
 </template>
@@ -73,23 +67,25 @@ export default {
             mescroll: null,
             //dataList: [], // 列表数据
             curTabIndex: 0, // 菜单
-            toTop: this.top ? this.top : this.tab ? 44 : 0, //距顶距离
-            
+            toTop: this.top ? this.top : this.tab ? 44 : 0 //距顶距离
         };
     },
     watch: {
-        curIndex(nVal, oVal) {
-            this.curTabIndex = nVal;
+        curIndex: {
+            handler(nVal, oVal) {
+                this.curTabIndex = nVal;
+            },
+            immediate: true
         }
     },
     computed: {},
     mounted() {
-        console.log('tabList',this.tabList);
+        console.log("tabList", this.tabList);
         this.mescroll = new MeScroll(this.$refs.mescroll, {
             up: this.getMescrollUp(),
             down: this.getMescrollDown()
         });
-        
+
         this.$emit("init", this.mescroll);
 
         // safari不支持sticky  不理想会闪
@@ -182,9 +178,7 @@ export default {
                 isLock: false, // 是否锁定下拉,默认false;
                 isBoth: false, // 下拉刷新时,如果滑动到列表底部是否可以同时触发上拉加载;默认false,两者不可同时触发;
                 callback: mescroll => {
-                    console.log("down --> callback", this);
-                    // 加载轮播数据
-                    // loadSwiper();
+                    console.log("down --> callback");
                     // 下拉刷新的回调,默认重置上拉加载列表为第一页(down的auto默认true,初始化Mescroll之后会自动执行到这里,而mescroll.resetUpScroll会触发up的callback)
                     mescroll.resetUpScroll();
                     this.$emit("pullDown");
@@ -213,7 +207,7 @@ export default {
                         "downwarp-progress"
                     )[0];
                 },
-                inOffset: (mescroll) => {
+                inOffset: mescroll => {
                     console.log("down --> inOffset");
                     // 进入指定距离offset范围内那一刻的回调
                     if (mescroll.downTipDom)
@@ -257,7 +251,7 @@ export default {
                         );
                     }
                 },
-                afterLoading: (mescroll) => {
+                afterLoading: mescroll => {
                     // 结束下拉之前的回调. 返回延时执行结束下拉的时间,默认0ms; 常用于结束下拉之前再显示另外一小段动画,才去结束下拉的场景
                     return 0;
                 }
@@ -320,7 +314,7 @@ export default {
                     delay: 500 // 延时执行的毫秒数; 延时是为了保证列表数据或占位的图片都已初始化完成,且下拉刷新上拉加载中区域动画已执行完毕;
                 },
                 empty: {
-                    customId:"htmlEmpty",
+                    customId: "htmlEmpty"
                     // 列表第一页无任何数据时,显示的空提示布局; 需配置warpId才生效;
                     //warpId: "htmlEmpty", // 父布局的id; 如果此项有值,将不使用clearEmptyId的值;
                     //icon: "./static/mescroll/mescroll-empty.png", // 图标,默认null
@@ -332,11 +326,11 @@ export default {
                     //},
                     //supportTap: false // 默认点击事件用onclick,会有300ms的延时;如果您的运行环境支持tap,则可配置true;
                 },
-                showEmpty:() =>{
-                    console.log('showEmpty()');
+                showEmpty: () => {
+                    console.log("showEmpty()");
                 },
-                removeEmpty:() =>{
-                    console.log('removeEmpty()');
+                removeEmpty: () => {
+                    console.log("removeEmpty()");
                 },
                 //clearId: null, // 加载第一页时需清空数据的列表id; 如果此项有值,将不使用clearEmptyId的值; 使用vue则不能配置此项
                 //clearEmptyId: null, // 相当于同时设置了clearId和empty.warpId; 简化写法,默认null; 使用vue则不能配置此项
@@ -347,7 +341,6 @@ export default {
                     '<p class="upwarp-progress mescroll-rotate"></p><p class="upwarp-tip">加载中..</p>', // 上拉加载中的布局
                 htmlNodata: '<p class="upwarp-nodata">-- END --</p>', // 无数据的布局
                 inited: function(mescroll, upwarp) {
-                   
                     console.log("up --> inited");
                     // 初始化完毕的回调,可缓存dom 比如 mescroll.upProgressDom = upwarp.getElementsByClassName("upwarp-progress")[0];
                 },
@@ -389,7 +382,7 @@ export default {
 </script>
 
 <style scoped>
-#htmlEmpty{
+#htmlEmpty {
     display: none;
 }
 /*以fixed的方式固定mescroll的高度*/

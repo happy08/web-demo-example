@@ -11,11 +11,18 @@
             label="手机号"
             placeholder="请输入"
         ></cy-field>
-        <cy-field v-model="form.phone" label="手机号" placeholder="请输入">
+        <cy-field
+            v-model="form.phone"
+            v-number.float="form.phone"
+            :maxLen="2"
+            label="手机号"
+            placeholder="请输入"
+        >
             <template #default>
                 <span class="text-yellow">发送验证码</span>
             </template>
         </cy-field>
+
         <cy-field v-model="form.money" label="金额" placeholder="只能输入数字 保留2位小数"></cy-field>
         <cy-field label="发送验证发">
             <template #input>
@@ -90,12 +97,12 @@ export default {
     components: {},
     created() {},
     watch: {
-        "form.money"(nVal, oVal) {
-            console.log("dd", nVal);
-            this.form.money = nVal
-                .replace(/^(\d{0,9}(\.\d{0,2})?).*/, "$1")
-                .replace(/^\./g, "");
-        }
+        // "form.money"(nVal, oVal) {
+        //     console.log("dd", nVal);
+        //     this.form.money = nVal
+        //         .replace(/^(\d{0,9}(\.\d{0,2})?).*/, "$1")
+        //         .replace(/^\./g, "");
+        // }
     },
     computed: {},
 
