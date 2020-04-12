@@ -41,7 +41,7 @@
             </ul>
 
             <template #empty>
-                <div class="data-empty" @click="clickE">no data</div>
+                <div @click="clickE">no data</div>
             </template>
             <!-- <ul class="data-list" v-show="curIndex===1">
                         <li v-for="pd in dataList" :key="pd.id">
@@ -164,7 +164,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.data-empty {
-    font-size: 50px;
-}
 </style>
