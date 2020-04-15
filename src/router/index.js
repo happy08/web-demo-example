@@ -287,7 +287,15 @@ const routes = [
       keepAlive: false
     }
   },
-
+  {
+    path: '/echarts',
+    name: 'echarts',
+    component: () => import('@/views/echarts.vue'),
+    meta: {
+      index: 1,
+      keepAlive: false
+    }
+  },
 ]
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="cy-col" :class="classObject">
+    <div class="cy-col" :class="classObj">
         <slot></slot>
     </div>
 </template>
@@ -18,14 +18,14 @@ export default {
     },
     data() {
         return {
-            classObject: {}
+            classObj: {}
         };
     },
     watch: {
         span: {
             handler(val) {
                 if (val) {
-                    this.classObject = Object.assign(this.classObject, {
+                    this.classObj = Object.assign(this.classObj, {
                         ["cy-col-" + val]: this.span == val
                     });
                 }
@@ -35,7 +35,7 @@ export default {
         offset: {
             handler(val) {
                 if (val) {
-                    this.classObject = Object.assign(this.classObject, {
+                    this.classObj = Object.assign(this.classObj, {
                         ["cy-col-offset-" + val]: this.offset == val
                     });
                 }
@@ -49,13 +49,7 @@ export default {
 
 <style lang="scss">
 .cy-col {
-    float: left;
-    box-sizing: border-box;
-    word-break: break-all;
-}
-.cy-col {
-    float: left;
-    -webkit-box-sizing: border-box;
+    width: 100%;
     box-sizing: border-box;
     word-break: break-all;
 }
@@ -63,63 +57,63 @@ export default {
     margin-left: 4.16667%;
 }
 .cy-col-1 {
-    width: 4.16667%;
+    flex: 0 0 4.16667%;
+    max-width: 4.16667%;
 }
 .cy-col-offset-2 {
     margin-left: 8.33333%;
 }
 .cy-col-2 {
-    width: 8.33333%;
+    flex: 0 0 8.33333%;
+    max-width: 8.33333%;
 }
 .cy-col-offset-3 {
     margin-left: 12.5%;
 }
 .cy-col-3 {
-    width: 12.5%;
+    flex: 0 0 12.5%;
+    max-width: 12.5%;
 }
 .cy-col-offset-4 {
     margin-left: 16.66667%;
 }
 .cy-col-4 {
-    width: 16.66667%;
+    flex: 0 0 16.66667%;
+    max-width: 16.66667%;
 }
 .cy-col-offset-5 {
     margin-left: 20%;
 }
 .cy-col-5 {
-    width: 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
 }
 .cy-col-offset-6 {
     margin-left: 25%;
 }
 .cy-col-6 {
-    width: 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
 }
 .cy-col-offset-8 {
     margin-left: 33.33333%;
 }
 .cy-col-8 {
-    width: 33.33333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
 }
 .cy-col-offset-12 {
     margin-left: 50%;
 }
 .cy-col-12 {
-    width: 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
 }
 .cy-col-offset-24 {
     margin-left: 100%;
 }
 .cy-col-24 {
-    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
 }
-// @for $i from 1 through 24 {
-//     .cy-col-offset-#{$i} {
-//         margin-left: 100/24 * $i * 1%;
-//     }
-
-//     .cy-col-#{$i} {
-//         width: 100/24 * $i * 1%;
-//     }
-// }
 </style>

@@ -1,7 +1,9 @@
 
 <template>
-    <div class="cy-row-flex" :class="classObject" :style="style">
-        <slot></slot>
+    <div class="cy-row">
+        <div class="cy-row-flex" :class="classObj" :style="style">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <script>
@@ -31,7 +33,7 @@ export default {
     },
     data() {
         return {
-            classObject: {
+            classObj: {
                 "cy-row-justify-center": this.justify == "center",
                 "cy-row-justify-end": this.justify == "end",
                 "cy-row-justify-space-between": this.justify == "space-between",
@@ -47,12 +49,14 @@ export default {
             }
         };
     },
+    mounted() {
+        let slot = [...this.$slots.default];
+        this.initCol(slot);
+    },
     computed: {
         style() {
             if (this.gutter != "") {
-                return function() {
-                    this.styleObj;
-                };
+                return this.styleObj;
             }
         }
     },
@@ -69,15 +73,15 @@ export default {
                 }
             }
         }
-    },
-    mounted() {
-        let slot = [...this.$slots.default];
-        this.initCol(slot);
     }
 };
 </script>
 
 <style lang="scss">
+.cy-row {
+    width: 100%;
+    overflow: hidden;
+}
 .cy-row-flex {
     display: flex;
     .cy-col {

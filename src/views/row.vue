@@ -16,11 +16,11 @@
             <cy-cell>offset String/Number 列元素偏移距离</cy-cell>
         </div>
 
-        <cy-row wrap="wrap">
+        <cy-row wrap="wrap" :gutter="20">
             <cy-col :span="8">
                 <div class="inner">1</div>
             </cy-col>
-            <cy-col :span="8">
+            <cy-col :span="8" :offset="2">
                 <div class="inner">2</div>
             </cy-col>
             <cy-col :span="8">
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: "home",
+    name: "row",
     data() {
         return {};
     },
